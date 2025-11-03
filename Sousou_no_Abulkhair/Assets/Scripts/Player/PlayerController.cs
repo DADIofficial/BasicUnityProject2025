@@ -12,10 +12,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 positionChange = new Vector3(
-            _playerInputController.MovementInputVector.x,
-            0,
-            _playerInputController.MovementInputVector.y) * _speed * Time.deltaTime;
-        transform.position += positionChange; 
+        // Ввод с клавиатуры (или геймпада)
+        Vector2 input = _playerInputController.MovementInputVector;
+
+        // Создаем вектор движения в локальных координатах
+        Vector3 move = new Vector3(input.x, 0f, input.y);
+
+        // Преобразуем локальный вектор в мировой — с учётом поворота игрока
+        Vector3 moveRelativeToRotation = transform.TransformDirection(move);
+
+        // Нормализуем (чтобы диагональ не была быстрее) и умножаем на скорость
+        transform.position += moveRelativeToRotation.normalized * _speed * Time.deltaTime;
     }
 }
