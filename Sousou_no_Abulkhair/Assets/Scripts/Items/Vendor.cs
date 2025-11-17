@@ -9,7 +9,7 @@ public class Vendor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // Update is called once per frame
@@ -23,16 +23,23 @@ public class Vendor : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             menuActivated = true;
+            Cursor.visible = true;
             ShopMenu.SetActive(menuActivated);
             InventoryMenu.SetActive(true);
         }
     }
-  
+
+    private void OnTriggerStay(Collider other)
+    {
+
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             menuActivated = false;
+            Cursor.visible = false;
             ShopMenu.SetActive(menuActivated);
             InventoryMenu.SetActive(false);
         }

@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 48504429}
   - component: {fileID: 48504428}
   - component: {fileID: 48504427}
+  - component: {fileID: 48504430}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -376,6 +377,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48504425}
   m_CullTransparentMesh: 1
+--- !u!114 &48504430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48504425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 2
+  inventoryUI: {fileID: 0}
 --- !u!1 &96397960
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +647,7 @@ GameObject:
   - component: {fileID: 144157522}
   - component: {fileID: 144157521}
   - component: {fileID: 144157520}
+  - component: {fileID: 144157523}
   m_Layer: 5
   m_Name: Button (5)
   m_TagString: Untagged
@@ -741,6 +757,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144157518}
   m_CullTransparentMesh: 1
+--- !u!114 &144157523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144157518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 5
+  inventoryUI: {fileID: 0}
 --- !u!1 &149506325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,6 +1525,7 @@ GameObject:
   - component: {fileID: 418400125}
   - component: {fileID: 418400124}
   - component: {fileID: 418400123}
+  - component: {fileID: 418400126}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -1565,7 +1596,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 418400124}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 418400126}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &418400124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1604,6 +1647,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418400121}
   m_CullTransparentMesh: 1
+--- !u!114 &418400126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418400121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 2
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &419639076 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a9f81f2bc2bf83d438eb7b20f4fee7dd, type: 3}
@@ -1824,7 +1881,7 @@ MonoBehaviour:
   health: 100
   stamina: 100
   mana: 100
-  leaves: 10
+  leaves: 1000000
   speed: 5
   weapon: {fileID: 0}
 --- !u!1 &443622905
@@ -1947,6 +2004,7 @@ GameObject:
   - component: {fileID: 449254835}
   - component: {fileID: 449254834}
   - component: {fileID: 449254833}
+  - component: {fileID: 449254836}
   m_Layer: 5
   m_Name: Button (8)
   m_TagString: Untagged
@@ -2017,7 +2075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 449254834}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 449254836}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &449254834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2056,6 +2126,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449254831}
   m_CullTransparentMesh: 1
+--- !u!114 &449254836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449254831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 8
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &461266401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,6 +2369,7 @@ GameObject:
   - component: {fileID: 466892462}
   - component: {fileID: 466892461}
   - component: {fileID: 466892460}
+  - component: {fileID: 466892463}
   m_Layer: 5
   m_Name: Button (8)
   m_TagString: Untagged
@@ -2394,6 +2479,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466892458}
   m_CullTransparentMesh: 1
+--- !u!114 &466892463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466892458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 8
+  inventoryUI: {fileID: 0}
 --- !u!1 &470653320
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,6 +2937,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShopMenu: {fileID: 1834914723}
   InventoryMenu: {fileID: 1942462682}
+--- !u!114 &537454820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537454812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f898b91224af5469e9edb0ae308b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: 5d6742f906b399c48bf89c32eb94790d, type: 2}
 --- !u!1 &550625696
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,6 +2962,7 @@ GameObject:
   - component: {fileID: 550625700}
   - component: {fileID: 550625699}
   - component: {fileID: 550625698}
+  - component: {fileID: 550625701}
   m_Layer: 5
   m_Name: Button (6)
   m_TagString: Untagged
@@ -2920,7 +3033,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 550625699}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 550625701}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &550625699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2959,6 +3084,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550625696}
   m_CullTransparentMesh: 1
+--- !u!114 &550625701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550625696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 6
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &561272467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,6 +3219,7 @@ GameObject:
   - component: {fileID: 561938459}
   - component: {fileID: 561938458}
   - component: {fileID: 561938457}
+  - component: {fileID: 561938460}
   m_Layer: 5
   m_Name: Button (9)
   m_TagString: Untagged
@@ -3150,7 +3290,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 561938458}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 561938460}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &561938458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3189,6 +3341,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561938455}
   m_CullTransparentMesh: 1
+--- !u!114 &561938460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561938455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 9
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &566108585
 GameObject:
   m_ObjectHideFlags: 0
@@ -4897,6 +5063,7 @@ GameObject:
   - component: {fileID: 775761493}
   - component: {fileID: 775761492}
   - component: {fileID: 775761491}
+  - component: {fileID: 775761494}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -4967,7 +5134,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 775761492}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 775761494}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &775761492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5006,6 +5185,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775761489}
   m_CullTransparentMesh: 1
+--- !u!114 &775761494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775761489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 3
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &793421834
 GameObject:
   m_ObjectHideFlags: 0
@@ -5018,6 +5211,7 @@ GameObject:
   - component: {fileID: 793421838}
   - component: {fileID: 793421837}
   - component: {fileID: 793421836}
+  - component: {fileID: 793421839}
   m_Layer: 5
   m_Name: Button (5)
   m_TagString: Untagged
@@ -5088,7 +5282,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 793421837}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 793421839}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &793421837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5127,6 +5333,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793421834}
   m_CullTransparentMesh: 1
+--- !u!114 &793421839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793421834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 5
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &794819939
 GameObject:
   m_ObjectHideFlags: 0
@@ -6254,6 +6474,7 @@ GameObject:
   - component: {fileID: 1052302138}
   - component: {fileID: 1052302137}
   - component: {fileID: 1052302136}
+  - component: {fileID: 1052302139}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -6363,6 +6584,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052302134}
   m_CullTransparentMesh: 1
+--- !u!114 &1052302139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052302134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  inventoryUI: {fileID: 0}
 --- !u!1 &1067590290
 GameObject:
   m_ObjectHideFlags: 0
@@ -6572,6 +6807,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dec946d70d8438e4aa8255ef5fddbc87, type: 3}
       insertIndex: -1
       addedObject: {fileID: 537454817}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dec946d70d8438e4aa8255ef5fddbc87, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 537454820}
   m_SourcePrefab: {fileID: 100100000, guid: dec946d70d8438e4aa8255ef5fddbc87, type: 3}
 --- !u!1 &1132805702
 GameObject:
@@ -6585,6 +6823,7 @@ GameObject:
   - component: {fileID: 1132805706}
   - component: {fileID: 1132805705}
   - component: {fileID: 1132805704}
+  - component: {fileID: 1132805707}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -6694,6 +6933,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132805702}
   m_CullTransparentMesh: 1
+--- !u!114 &1132805707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132805702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 3
+  inventoryUI: {fileID: 0}
 --- !u!1 &1146762640
 GameObject:
   m_ObjectHideFlags: 0
@@ -7689,6 +7942,7 @@ GameObject:
   - component: {fileID: 1306315308}
   - component: {fileID: 1306315307}
   - component: {fileID: 1306315306}
+  - component: {fileID: 1306315309}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -7759,7 +8013,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1306315307}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306315309}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1306315307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7798,6 +8064,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306315304}
   m_CullTransparentMesh: 1
+--- !u!114 &1306315309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306315304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 4
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &1307620285
 GameObject:
   m_ObjectHideFlags: 0
@@ -8528,6 +8808,7 @@ GameObject:
   - component: {fileID: 1539837849}
   - component: {fileID: 1539837848}
   - component: {fileID: 1539837847}
+  - component: {fileID: 1539837850}
   m_Layer: 5
   m_Name: Button (7)
   m_TagString: Untagged
@@ -8598,7 +8879,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1539837848}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1539837850}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1539837848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8637,6 +8930,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539837845}
   m_CullTransparentMesh: 1
+--- !u!114 &1539837850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539837845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 7
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &1547468676
 GameObject:
   m_ObjectHideFlags: 0
@@ -9651,6 +9958,7 @@ GameObject:
   - component: {fileID: 1707004798}
   - component: {fileID: 1707004797}
   - component: {fileID: 1707004796}
+  - component: {fileID: 1707004799}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -9721,7 +10029,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1707004797}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1707004799}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1707004797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9760,6 +10080,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707004794}
   m_CullTransparentMesh: 1
+--- !u!114 &1707004799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707004794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 1
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &1715978919
 GameObject:
   m_ObjectHideFlags: 0
@@ -10176,6 +10510,7 @@ GameObject:
   - component: {fileID: 1792477408}
   - component: {fileID: 1792477407}
   - component: {fileID: 1792477406}
+  - component: {fileID: 1792477409}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -10285,6 +10620,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792477404}
   m_CullTransparentMesh: 1
+--- !u!114 &1792477409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792477404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 4
+  inventoryUI: {fileID: 0}
 --- !u!1 &1797259782
 GameObject:
   m_ObjectHideFlags: 0
@@ -10328,6 +10677,7 @@ GameObject:
   - component: {fileID: 1808075135}
   - component: {fileID: 1808075134}
   - component: {fileID: 1808075133}
+  - component: {fileID: 1808075136}
   m_Layer: 5
   m_Name: Button (7)
   m_TagString: Untagged
@@ -10437,6 +10787,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1808075131}
   m_CullTransparentMesh: 1
+--- !u!114 &1808075136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808075131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 7
+  inventoryUI: {fileID: 0}
 --- !u!1 &1808087672
 GameObject:
   m_ObjectHideFlags: 0
@@ -10558,6 +10922,7 @@ GameObject:
   - component: {fileID: 1830930962}
   - component: {fileID: 1830930961}
   - component: {fileID: 1830930960}
+  - component: {fileID: 1830930963}
   m_Layer: 5
   m_Name: Button (9)
   m_TagString: Untagged
@@ -10667,6 +11032,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830930958}
   m_CullTransparentMesh: 1
+--- !u!114 &1830930963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830930958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 9
+  inventoryUI: {fileID: 0}
 --- !u!1 &1834914723
 GameObject:
   m_ObjectHideFlags: 0
@@ -10729,7 +11108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41546f690eeef8f4a8dc55bc8d839132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 419639082}
+  playerInventory: {fileID: 537454820}
+  customerInventory: {fileID: 0}
+  inventoryButton: {fileID: 0}
   slotParent: {fileID: 1834914724}
 --- !u!114 &1834914726
 MonoBehaviour:
@@ -11027,6 +11408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 419639082}
+  customerInventory: {fileID: 0}
+  inventoryButton: {fileID: 0}
   slotParent: {fileID: 1942462683}
 --- !u!1 &1961234174
 GameObject:
@@ -11392,6 +11775,7 @@ GameObject:
   - component: {fileID: 2007727893}
   - component: {fileID: 2007727892}
   - component: {fileID: 2007727891}
+  - component: {fileID: 2007727894}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -11501,6 +11885,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007727889}
   m_CullTransparentMesh: 1
+--- !u!114 &2007727894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007727889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 1
+  inventoryUI: {fileID: 0}
 --- !u!1 &2032083201
 GameObject:
   m_ObjectHideFlags: 0
@@ -12117,6 +12515,7 @@ GameObject:
   - component: {fileID: 2099593241}
   - component: {fileID: 2099593240}
   - component: {fileID: 2099593239}
+  - component: {fileID: 2099593242}
   m_Layer: 5
   m_Name: Button (6)
   m_TagString: Untagged
@@ -12226,6 +12625,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2099593237}
   m_CullTransparentMesh: 1
+--- !u!114 &2099593242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099593237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 6
+  inventoryUI: {fileID: 0}
 --- !u!1 &2106795547
 GameObject:
   m_ObjectHideFlags: 0
@@ -12347,6 +12760,7 @@ GameObject:
   - component: {fileID: 2114792147}
   - component: {fileID: 2114792146}
   - component: {fileID: 2114792145}
+  - component: {fileID: 2114792148}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -12417,7 +12831,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2114792146}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2114792148}
+        m_TargetAssemblyTypeName: InventoryButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &2114792146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12456,6 +12882,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114792143}
   m_CullTransparentMesh: 1
+--- !u!114 &2114792148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114792143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7aa0457e74ae848b94d45591888b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  inventoryUI: {fileID: 1834914725}
 --- !u!1 &2116643274
 GameObject:
   m_ObjectHideFlags: 0
