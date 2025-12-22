@@ -8,6 +8,7 @@ public class InventoryUI : MonoBehaviour
     public PlayerInventory playerInventory;
     public PlayerInventory customerInventory;
     public InventoryButton inventoryButton;
+    public Vendor vendor;
     public Transform slotParent;
     private Transform[] waypoints;
 
@@ -59,5 +60,8 @@ public class InventoryUI : MonoBehaviour
 
         // Get the item
         var item = slots[index].item;
+        Debug.Log("Clicked on item: " + item);
+        Debug.Log("Attempting to buy item: " + item.itemName);
+        vendor.BuyItem(item);
     }
 }

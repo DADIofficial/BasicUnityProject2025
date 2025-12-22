@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Vendor : MonoBehaviour
@@ -5,6 +6,9 @@ public class Vendor : MonoBehaviour
 
     [SerializeField] private GameObject ShopMenu;
     [SerializeField] private GameObject InventoryMenu;
+    [SerializeField] private PlayerInventory playerInventory;
+    [SerializeField] private Player player;
+    [SerializeField] TextMeshProUGUI currencyText;
     private bool menuActivated = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,5 +47,30 @@ public class Vendor : MonoBehaviour
             ShopMenu.SetActive(menuActivated);
             InventoryMenu.SetActive(false);
         }
+    }
+
+    public void BuyItem(Item item)
+    {
+        InventoryInstance instance = new InventoryInstance(item, 1);
+        if (player.leaves >= item.price && playerInventory.Add(instance))
+        {
+            player.leaves -= item.price;
+
+            currencyText.text = $"Leaves: {player.leaves}";
+
+            Debug.Log("Куплен: " + item.itemName);
+        }
+        else
+        {
+            Debug.Log("Недостаточно золота");
+        }
+    }
+
+    public void SellItem(Item item)
+    {
+        player.leaves += item.price / 100;
+        playerInventory.Remove(item);
+
+        Debug.Log("Продан: " + item.itemName);
     }
 }

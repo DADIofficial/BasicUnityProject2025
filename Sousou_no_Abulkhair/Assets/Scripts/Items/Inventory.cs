@@ -25,7 +25,7 @@ public class Inventory : ScriptableObject
         int maxItems = width * height;
         for(int i = 0; i < slots.Count; i++)
         {
-            if (slots[i] == null) {
+            if (slots[i].count == 0) {
                 slots[i] = itemToAdd;
                 return true;
             }
@@ -36,6 +36,28 @@ public class Inventory : ScriptableObject
             return true;
         }
         Debug.Log("Inventory is full");
+        return false;
+    }
+
+    public bool RemoveItem(Item itemToRemove, int amount = 1)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].count > 0 && slots[i].item == itemToRemove)
+            {
+                slots[i].count -= amount;
+
+                if (slots[i].count <= 0)
+                {
+                    slots[i].item = null;
+                    slots[i].count = 0;
+                }
+
+                return true;
+            }
+        }
+
+        Debug.Log("Item not found in inventory");
         return false;
     }
 }
