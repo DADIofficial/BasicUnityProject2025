@@ -3,7 +3,9 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryMenu;
+    [SerializeField] private GameObject QuestLogMenu;
     private bool menuActivated = false;
+    private bool questLogActivated = false;
 
     void Start()
     {
@@ -17,6 +19,12 @@ public class InventoryManager : MonoBehaviour
             Debug.Log("E key pressed - toggling inventory menu");
             menuActivated = !menuActivated;
             InventoryMenu.SetActive(menuActivated);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("C key pressed - toggling inventory menu");
+            questLogActivated = !questLogActivated;
+            QuestLogMenu.SetActive(questLogActivated);
         }
     }
 
