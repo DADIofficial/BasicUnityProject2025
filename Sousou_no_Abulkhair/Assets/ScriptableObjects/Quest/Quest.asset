@@ -16,10 +16,10 @@ MonoBehaviour:
   questName: Collect health potion
   description: You need to find or buy one health potion
   objectives:
-  - objectiveId: Health Potion
+  - objectiveId: 1
     description: Collect health potion
     type: 1
-    requiredAmount: 1
+    requiredAmount: 2
     currentAmount: 0
   giverId: 
   turnInAtGiver: 1

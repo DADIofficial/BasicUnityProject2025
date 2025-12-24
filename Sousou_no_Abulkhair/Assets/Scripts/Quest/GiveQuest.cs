@@ -35,10 +35,41 @@ public class GiveQuest : MonoBehaviour
 
     public void AcceptQuest()
     {
-        if (!playerInside) return;
+        if (!playerInside || QuestController.instance.IsQuestHandedIn(quest.questId)) return;
         QuestController.instance.AcceptQuest(quest);
         questInfo.SetActive(false);
         Cursor.visible = false;
         questText.text = questGiver.inProgressText;
+    }
+
+    private void UpdateQuestText()
+    {
+        if (QuestController.instance.IsQuestHandedIn(quest.questId))
+        {
+            questText.text = questGiver.completedText;
+        }
+        else if (QuestController.instance.IsQuestCompleted(quest.questId))
+        {
+            questText.text = questGiver.readyToTurnInText;
+        }
+        else if (QuestController.instance.IsQuestActive(quest.questId))
+        {
+            questText.text = questGiver.inProgressText;
+        }
+        /*else if (QuestController.instance.IsQuestHandedIn(quest.questId))
+        {
+            questText.text = questGiver.completedText;
+        }*/
+    }
+
+    public void HandInQuest()
+    {
+        if (!playerInside) return;
+
+        if (!QuestController.instance.IsQuestCompleted(quest.questId))
+            return;
+
+        QuestController.instance.HandInQuest(quest.questId);
+        UpdateQuestText();
     }
 }

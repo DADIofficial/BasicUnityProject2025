@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryMenu;
     [SerializeField] private GameObject QuestLogMenu;
+    [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private Inventory inventory;
     private bool menuActivated = false;
     private bool questLogActivated = false;
 
@@ -32,5 +35,17 @@ public class InventoryManager : MonoBehaviour
     {
         // Implementation for adding item to inventory
         Debug.Log($"Adding item: {itemName}");
+        inventoryUI.RefreshUI();
+    }
+
+    public void RemoveItemById(string itemId, int amount = 1)
+    {
+        inventory.RemoveItemById(itemId, amount);
+        inventoryUI.RefreshUI();
+    }
+
+    public Dictionary<string, int> GetItemCounts()
+    {
+        return inventory.GetItemCounts();
     }
 }
