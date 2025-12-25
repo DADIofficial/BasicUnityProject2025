@@ -3,10 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "KeyItem", menuName = "Item/KeyItem")]
 public class KeyItem : Item
 {
-    public string doorID;
+    public string keyId;
+    //public bool isConsumable = false;
 
-    private void OnEnable()
+    private void OnValidate()
     {
-        itemType = ItemType.Key;
+        if (string.IsNullOrEmpty(keyId))
+            keyId = System.Guid.NewGuid().ToString();
     }
 }

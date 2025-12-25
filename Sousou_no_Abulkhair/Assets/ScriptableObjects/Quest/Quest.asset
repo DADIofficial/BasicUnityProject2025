@@ -28,5 +28,8 @@ MonoBehaviour:
   - type: 1
     item: {fileID: 11400000, guid: 57f7da20d9594b04c993c5cf32cce7c8, type: 2}
     amount: 1
+  - type: 1
+    item: {fileID: 11400000, guid: b88ced2fa7f3a284596809b6c610b76c, type: 2}
+    amount: 1
   giverId: 
   turnInAtGiver: 1

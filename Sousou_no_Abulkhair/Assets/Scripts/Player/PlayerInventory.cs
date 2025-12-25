@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 using static QuestController;
@@ -34,5 +35,20 @@ public class PlayerInventory : MonoBehaviour
     public int GetAmountOfFreeSlots()
     {
         return inventory.GetFreeSlots();
+    }
+
+    public bool HasKey(string keyId, out InventoryInstance instance)
+    {
+        foreach (var slot in inventory.slots)
+        {
+            if (slot?.item is KeyItem key && key.keyId == keyId)
+            {
+                instance = slot;
+                return true;
+            }
+        }
+
+        instance = null;
+        return false;
     }
 }

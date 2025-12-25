@@ -17,21 +17,21 @@ MonoBehaviour:
   slots:
   - item: {fileID: 11400000, guid: 57f7da20d9594b04c993c5cf32cce7c8, type: 2}
     count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 11400000, guid: 57f7da20d9594b04c993c5cf32cce7c8, type: 2}
     count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
+  - item: {fileID: 11400000, guid: b88ced2fa7f3a284596809b6c610b76c, type: 2}
     count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
-    count: 1
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 0}
+    count: 0
+  - item: {fileID: 0}
+    count: 0
