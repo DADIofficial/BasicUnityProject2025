@@ -23,4 +23,16 @@ public class PlayerInventory : MonoBehaviour
         inventoryUI.RefreshUI();
         return ans;
     }
+
+    public void RemoveItemById(string itemId, int amount = 1)
+    {
+        inventory.RemoveItemById(itemId, amount);
+        QuestController.instance.CheckInventoryForQuests();
+        inventoryUI.RefreshUI();
+    }
+
+    public int GetAmountOfFreeSlots()
+    {
+        return inventory.GetFreeSlots();
+    }
 }

@@ -21,6 +21,18 @@ public class Inventory : ScriptableObject
         }
     }
 
+    public int GetFreeSlots()
+    {
+        int totalSlots = width * height;
+        int ans = totalSlots;
+        for(int i = 0; i < totalSlots; i++)
+        {
+            if (slots[i].count != 0)
+                ans--;
+        }
+        return ans;
+    }
+
     public bool AddItem(InventoryInstance itemToAdd)
     {
         int maxItems = width * height;
@@ -60,7 +72,7 @@ public class Inventory : ScriptableObject
             }
         }
 
-        Debug.Log("Item not found in inventory");
+        //Debug.Log("Item not found in inventory");
         return false;
     }
 
@@ -93,6 +105,6 @@ public class Inventory : ScriptableObject
             }
         }
 
-        Debug.Log("Item not found in inventory");
+        //Debug.Log("Item not found in inventory");
     }
 }

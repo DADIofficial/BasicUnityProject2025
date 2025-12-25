@@ -9,6 +9,7 @@ public class Quest : ScriptableObject
     public string questName;
     public string description;
     public List<QuestObjective> objectives;
+    public List<QuestReward> questRewards;
 
     [Header("Quest Giver")]
     public string giverId;         
@@ -87,7 +88,18 @@ public class Quest : ScriptableObject
     [System.Serializable]
     public class QuestReward
     {
-        public int leaves;
-        public List<Item> items;
+        //public int leaves;
+        //public List<Item> items;
+        public RewardType type;
+        //public string rewardId;
+        public Item item;
+        public int amount;
+    }
+
+    public enum RewardType
+    {
+        Leaves, 
+        Item, 
+        Custom
     }
 }

@@ -27,25 +27,21 @@ public class InventoryUI : MonoBehaviour
             InventoryButton slotUI = waypoints[i].GetComponent<InventoryButton>();
             slotUI.index = i;
             slotUI.inventoryUI = this;
+
+            // Очищаем изображение по умолчанию
+            waypoints[i].GetComponent<Image>().sprite = null;
         }
-        //Debug.Log(playerInventory);
-        int j = 0; 
-        foreach (InventoryInstance i in playerInventory.inventory.slots) {
-            if(i == null)
+
+        for (int i = 0; i < playerInventory.inventory.slots.Count; i++)
+        {
+            var slot = playerInventory.inventory.slots[i];
+            if (slot != null && slot.item != null)
             {
-                //Debug.Log("No slots in inventory");
-                return;
+                waypoints[i].GetComponent<Image>().sprite = slot.item.icon;
             }
-            if(i.item == null)
-            {
-                //Debug.Log("Empty slot found");
-                j++;
-                continue;
-            }
-            waypoints[j].GetComponent<Image>().sprite = i.item.icon;
-            j++;
         }
     }
+
 
     public void OnSlotClicked(int index)
     {
@@ -54,14 +50,14 @@ public class InventoryUI : MonoBehaviour
         // Check if slot is empty
         if (slots[index] == null || slots[index].item == null)
         {
-            Debug.Log("Slot is empty: " + index);
+            //Debug.Log("Slot is empty: " + index);
             return;
         }
 
         // Get the item
         var item = slots[index].item;
-        Debug.Log("Clicked on item: " + item);
-        Debug.Log("Attempting to buy item: " + item.itemName);
+        //Debug.Log("Clicked on item: " + item);
+        //Debug.Log("Attempting to buy item: " + item.itemName);
         vendor.BuyItem(item);
     }
 }

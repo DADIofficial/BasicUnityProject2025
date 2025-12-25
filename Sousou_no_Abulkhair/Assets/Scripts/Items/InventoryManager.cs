@@ -19,13 +19,13 @@ public class InventoryManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("E key pressed - toggling inventory menu");
+            //Debug.Log("E key pressed - toggling inventory menu");
             menuActivated = !menuActivated;
             InventoryMenu.SetActive(menuActivated);
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("C key pressed - toggling inventory menu");
+            //Debug.Log("C key pressed - toggling inventory menu");
             questLogActivated = !questLogActivated;
             QuestLogMenu.SetActive(questLogActivated);
         }
@@ -34,7 +34,7 @@ public class InventoryManager : MonoBehaviour
     public void AddItem(string itemName, Sprite itemIcon, string itemDescription)
     {
         // Implementation for adding item to inventory
-        Debug.Log($"Adding item: {itemName}");
+        //Debug.Log($"Adding item: {itemName}");
         inventoryUI.RefreshUI();
     }
 

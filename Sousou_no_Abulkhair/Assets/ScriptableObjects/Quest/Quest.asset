@@ -21,5 +21,12 @@ MonoBehaviour:
     type: 1
     requiredAmount: 2
     currentAmount: 0
+  questRewards:
+  - type: 0
+    item: {fileID: 0}
+    amount: 100
+  - type: 1
+    item: {fileID: 11400000, guid: 57f7da20d9594b04c993c5cf32cce7c8, type: 2}
+    amount: 1
   giverId: 
   turnInAtGiver: 1

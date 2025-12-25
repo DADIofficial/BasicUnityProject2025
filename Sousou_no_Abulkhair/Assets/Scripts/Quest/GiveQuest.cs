@@ -69,7 +69,14 @@ public class GiveQuest : MonoBehaviour
         if (!QuestController.instance.IsQuestCompleted(quest.questId))
             return;
 
-        QuestController.instance.HandInQuest(quest.questId);
+        //Debug.Log(quest);
+        if (RewardsController.instance.GiveQuestReward(quest))
+            QuestController.instance.HandInQuest(quest.questId);
+        else
+        {
+            Debug.Log("Inventory is full, error quest hand in");
+            return;
+        }
         UpdateQuestText();
     }
 }

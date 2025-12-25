@@ -2449,7 +2449,7 @@ MonoBehaviour:
   health: 100
   stamina: 100
   mana: 100
-  leaves: 250
+  leaves: 500
   speed: 5
   weapon: {fileID: 0}
 --- !u!114 &419639090
@@ -9927,6 +9927,8 @@ GameObject:
   - component: {fileID: 1339084109}
   - component: {fileID: 1339084111}
   - component: {fileID: 1339084112}
+  - component: {fileID: 1339084113}
+  - component: {fileID: 1339084114}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -9994,6 +9996,33 @@ MonoBehaviour:
   activateQuests: []
   inventory: {fileID: 419639083}
   handinQuestIDs: []
+--- !u!114 &1339084113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339084108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33dd19e37d99594590f1699007a2467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: 0e7c7c8ef2da7184090e7609055253d4, type: 2}
+--- !u!114 &1339084114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339084108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ac891383a4f8c43b50d2215b7c528a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 419639089}
+  inventory: {fileID: 419639082}
 --- !u!1 &1339492362
 GameObject:
   m_ObjectHideFlags: 0

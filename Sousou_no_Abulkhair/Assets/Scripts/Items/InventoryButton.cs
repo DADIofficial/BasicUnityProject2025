@@ -8,7 +8,7 @@ public class InventoryButton : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Surprise, Motherfucker! You clicked on slot: " + index);
+        //Debug.Log("Surprise, Motherfucker! You clicked on slot: " + index);
         inventoryUI.OnSlotClicked(index);
     }
 }

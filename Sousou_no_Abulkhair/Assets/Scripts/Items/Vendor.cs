@@ -23,7 +23,7 @@ public class Vendor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
+        //Debug.Log(other.gameObject.tag);
         if (other.gameObject.CompareTag("Player"))
         {
             menuActivated = true;
@@ -58,7 +58,7 @@ public class Vendor : MonoBehaviour
 
             currencyText.text = $"Leaves: {player.leaves}";
 
-            Debug.Log("Куплен: " + item.itemName);
+            //Debug.Log("Куплен: " + item.itemName);
         }
         else
         {
@@ -71,6 +71,6 @@ public class Vendor : MonoBehaviour
         player.leaves += item.price / 100;
         playerInventory.Remove(item);
 
-        Debug.Log("Продан: " + item.itemName);
+        //Debug.Log("Продан: " + item.itemName);
     }
 }
