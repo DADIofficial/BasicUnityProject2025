@@ -60,7 +60,7 @@ public class DamageSystem : MonoBehaviour
         }     
     }
 
-    //MagicCoff
+    
 
     public float MagicDamage(){
         if (CritRate >= Random.Range(0, 100)){

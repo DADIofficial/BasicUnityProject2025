@@ -26,15 +26,15 @@ MonoBehaviour:
     weaponName: god
     weaponCoff: 150
   magics:
-  - MID: 1
+  - MID: 10
     magicName: Basic
     magicCoff: 2
-  - MID: 2
+  - MID: 11
     magicName: Fire
     magicCoff: 8
-  - MID: 3
+  - MID: 12
     magicName: Electirc
     magicCoff: 10
-  - MID: 4
+  - MID: 13
     magicName: god
     magicCoff: 150

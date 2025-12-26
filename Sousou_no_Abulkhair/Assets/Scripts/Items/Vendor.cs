@@ -10,6 +10,7 @@ public class Vendor : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] TextMeshProUGUI currencyText;
     private bool menuActivated = false;
+    public int coeff = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,15 +55,15 @@ public class Vendor : MonoBehaviour
         InventoryInstance instance = new InventoryInstance(item, 1);
         if (player.leaves >= item.price && playerInventory.Add(instance))
         {
-            player.leaves -= item.price;
+            player.leaves -= item.price * coeff;
 
             currencyText.text = $"Leaves: {player.leaves}";
 
-            //Debug.Log("Куплен: " + item.itemName);
+            //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: " + item.itemName);
         }
         else
         {
-            Debug.Log("Недостаточно золота");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
         }
     }
 
@@ -71,6 +72,6 @@ public class Vendor : MonoBehaviour
         player.leaves += item.price / 100;
         playerInventory.Remove(item);
 
-        //Debug.Log("Продан: " + item.itemName);
+        //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: " + item.itemName);
     }
 }
