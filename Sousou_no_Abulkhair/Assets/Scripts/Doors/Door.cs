@@ -12,7 +12,7 @@ public class Door : MonoBehaviour
     private static readonly int OpenHash = Animator.StringToHash("Open");
 
     public void TryOpen(PlayerInventory inventory)
-    {
+    {   
         if (isOpen) return;
 
         if (inventory.HasKey(requiredKeyId, out InventoryInstance keyInstance))
