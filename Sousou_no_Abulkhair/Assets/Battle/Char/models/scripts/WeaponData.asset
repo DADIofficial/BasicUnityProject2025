@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f57dd5e99797cb41aa0ca524a4e3188, type: 3}
+  m_Name: WeaponData
+  m_EditorClassIdentifier: 
+  weapons:
+  - WID: 1
+    weaponName: Basic
+    weaponCoff: 0.5
+  - WID: 2
+    weaponName: ench
+    weaponCoff: 1
+  - WID: 3
+    weaponName: hero
+    weaponCoff: 2
+  - WID: 4
+    weaponName: god
+    weaponCoff: 150
+  magics:
+  - MID: 10
+    magicName: Basic
+    magicCoff: 2
+  - MID: 11
+    magicName: Fire
+    magicCoff: 8
+  - MID: 12
+    magicName: Electirc
+    magicCoff: 10
+  - MID: 13
+    magicName: god
+    magicCoff: 150
