@@ -390,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 2
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &61414770
 GameObject:
@@ -981,6 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 5
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &149506325
 GameObject:
@@ -2223,7 +2225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 2
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 1834914730}
 --- !u!114 &419639082 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7677040273421297905, guid: 3e45593e048108642ba3086a3aecfcc7, type: 3}
@@ -2512,7 +2515,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 8
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &461266401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2865,6 +2869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 8
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &470653320
 GameObject:
@@ -3444,13 +3449,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25aaa7a06aa55764fad9b64bbb94818e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopMenu: {fileID: 1834914723}
-  InventoryMenu: {fileID: 1942462682}
+  shopMenu: {fileID: 1834914723}
+  inventoryMenu: {fileID: 1942462682}
+  currencyText: {fileID: 166202071}
   playerInventory: {fileID: 419639082}
   player: {fileID: 419639089}
-  currencyText: {fileID: 166202071}
-  coeff: 0
---- !u!114 &537454820
+--- !u!114 &537454823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3463,7 +3467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: 5d6742f906b399c48bf89c32eb94790d, type: 2}
-  inventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 1834914730}
 --- !u!1 &550625696
 GameObject:
   m_ObjectHideFlags: 0
@@ -3611,7 +3615,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 6
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &552361756
 GameObject:
   m_ObjectHideFlags: 0
@@ -3904,7 +3909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 9
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &566108585
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,12 +5175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25aaa7a06aa55764fad9b64bbb94818e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopMenu: {fileID: 1834914723}
-  InventoryMenu: {fileID: 1942462682}
+  shopMenu: {fileID: 0}
+  inventoryMenu: {fileID: 0}
+  currencyText: {fileID: 0}
   playerInventory: {fileID: 0}
   player: {fileID: 0}
-  currencyText: {fileID: 0}
-  coeff: 1
 --- !u!65 &681616353
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5992,7 +5997,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 3
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 1834914730}
 --- !u!1 &793421834
 GameObject:
   m_ObjectHideFlags: 0
@@ -6140,7 +6146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 5
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &794819939
 GameObject:
   m_ObjectHideFlags: 0
@@ -7553,6 +7560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &1067590290
 GameObject:
@@ -7991,7 +7999,7 @@ PrefabInstance:
       addedObject: {fileID: 537454817}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dec946d70d8438e4aa8255ef5fddbc87, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 537454820}
+      addedObject: {fileID: 537454823}
   m_SourcePrefab: {fileID: 100100000, guid: dec946d70d8438e4aa8255ef5fddbc87, type: 3}
 --- !u!1 &1132805702
 GameObject:
@@ -8128,6 +8136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 3
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &1145743478
 GameObject:
@@ -9469,7 +9478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 4
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &1307620285
 GameObject:
   m_ObjectHideFlags: 0
@@ -10794,7 +10804,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 7
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 0}
 --- !u!1 &1547468676
 GameObject:
   m_ObjectHideFlags: 0
@@ -11753,7 +11764,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 1
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 1834914730}
 --- !u!1 &1713764286
 GameObject:
   m_ObjectHideFlags: 0
@@ -12532,6 +12544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 4
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &1797259782
 GameObject:
@@ -12699,6 +12712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 7
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &1808087672
 GameObject:
@@ -12944,6 +12958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 9
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &1834914723
 GameObject:
@@ -12958,7 +12973,7 @@ GameObject:
   - component: {fileID: 1834914728}
   - component: {fileID: 1834914727}
   - component: {fileID: 1834914726}
-  - component: {fileID: 1834914725}
+  - component: {fileID: 1834914730}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
@@ -12995,23 +13010,6 @@ RectTransform:
   m_AnchoredPosition: {x: -700, y: 0}
   m_SizeDelta: {x: 210, y: 520}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1834914725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834914723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41546f690eeef8f4a8dc55bc8d839132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInventory: {fileID: 537454820}
-  customerInventory: {fileID: 419639082}
-  inventoryButton: {fileID: 0}
-  vendor: {fileID: 537454817}
-  slotParent: {fileID: 1834914724}
 --- !u!114 &1834914726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13104,6 +13102,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834914723}
   m_CullTransparentMesh: 1
+--- !u!114 &1834914730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834914723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd16429b67a50df48b7b8c78ea6cb57b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: 5d6742f906b399c48bf89c32eb94790d, type: 2}
+  playerInventory: {fileID: 537454823}
+  slotPrefab: {fileID: 0}
+  slotParent: {fileID: 1834914724}
+  vendor: {fileID: 537454817}
 --- !u!1 &1882043574
 GameObject:
   m_ObjectHideFlags: 0
@@ -13307,11 +13322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41546f690eeef8f4a8dc55bc8d839132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 11400000, guid: 6e3e5cc14b9b8aa42a679170f3a0b749, type: 2}
   playerInventory: {fileID: 419639082}
-  customerInventory: {fileID: 0}
-  inventoryButton: {fileID: 0}
-  vendor: {fileID: 0}
+  slotPrefab: {fileID: 0}
   slotParent: {fileID: 1942462683}
+  vendor: {fileID: 0}
 --- !u!1 &1961234174
 GameObject:
   m_ObjectHideFlags: 0
@@ -13938,6 +13953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 1
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &2032083201
 GameObject:
@@ -14882,6 +14898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 6
+  icon: {fileID: 0}
   inventoryUI: {fileID: 0}
 --- !u!1 &2106795547
 GameObject:
@@ -15139,7 +15156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  inventoryUI: {fileID: 1834914725}
+  icon: {fileID: 0}
+  inventoryUI: {fileID: 1834914730}
 --- !u!1 &2116643274
 GameObject:
   m_ObjectHideFlags: 0

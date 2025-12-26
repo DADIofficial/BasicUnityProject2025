@@ -1,11 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum InventoryType
+{
+    Player,
+    Chest,
+    Vendor
+}
+
+
 [CreateAssetMenu(fileName = "Inventory", menuName = "Scriptable Objects/Inventory")]
 public class Inventory : ScriptableObject
 {
     public int width = 2;
     public int height = 5;
+    public InventoryType inventoryType;
 
     public List<InventoryInstance> slots = new List<InventoryInstance>();
     public static QuestController instance;
@@ -106,5 +115,12 @@ public class Inventory : ScriptableObject
         }
 
         //Debug.Log("Item not found in inventory");
+    }
+
+    public void RemoveBySlotIndex(int index)
+    {
+        if (index < 0 || index >= slots.Count) return;
+        slots[index].item = null;
+        slots[index].count = 0;
     }
 }

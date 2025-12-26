@@ -5,59 +5,79 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public PlayerInventory playerInventory;
-    public PlayerInventory customerInventory;
-    public InventoryButton inventoryButton;
+    public Inventory inventory;
+    [SerializeField] public PlayerInventory playerInventory;
+    public InventoryButton slotPrefab;    // Префаб кнопки слота
+    public Transform slotParent;          // Parent для кнопок
     public Vendor vendor;
-    public Transform slotParent;
+
     private Transform[] waypoints;
 
     void Start()
     {
+        //CreateSlots();
         RefreshUI();
     }
 
     public void RefreshUI()
     {
-        slotParent = GetComponent<Transform>();
-        waypoints = new Transform[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
+        if (playerInventory == null || playerInventory.inventory == null) return;
+
+        slotParent = transform;
+        int childCount = slotParent.childCount;
+        waypoints = new Transform[childCount];
+
+        for (int i = 0; i < childCount; i++)
         {
             waypoints[i] = slotParent.GetChild(i);
             InventoryButton slotUI = waypoints[i].GetComponent<InventoryButton>();
-            slotUI.index = i;
-            slotUI.inventoryUI = this;
 
-            // Очищаем изображение по умолчанию
-            waypoints[i].GetComponent<Image>().sprite = null;
+            if (slotUI != null)
+            {
+                slotUI.index = i;
+                slotUI.inventoryUI = this;
+            }
+
+            // Очистка изображения
+            Image slotImage = waypoints[i].GetComponent<Image>();
+            if (slotImage != null)
+                slotImage.sprite = null;
         }
 
-        for (int i = 0; i < playerInventory.inventory.slots.Count; i++)
+        // Заполняем иконками предметов
+        for (int i = 0; i < playerInventory.inventory.slots.Count && i < waypoints.Length; i++)
         {
             var slot = playerInventory.inventory.slots[i];
             if (slot != null && slot.item != null)
             {
-                waypoints[i].GetComponent<Image>().sprite = slot.item.icon;
+                Image slotImage = waypoints[i].GetComponent<Image>();
+                if (slotImage != null)
+                    slotImage.sprite = slot.item.icon;
             }
         }
     }
 
-
-    public void OnSlotClicked(int index)
+    public virtual void OnSlotClicked(int index)
     {
-        var slots = playerInventory.inventory.slots;
-
-        // Check if slot is empty
-        if (slots[index] == null || slots[index].item == null)
+        var slot = inventory.slots[index];
+        Debug.Log(slot);
+        if (slot == null || slot.item == null) return;
+        Debug.Log("Surprise, Motherfucker! Inventory UI click");
+        switch (inventory.inventoryType)
         {
-            //Debug.Log("Slot is empty: " + index);
-            return;
+            case InventoryType.Player:
+            case InventoryType.Chest:
+                inventory.RemoveBySlotIndex(index);
+                break;
+
+            case InventoryType.Vendor:
+                if (vendor != null)
+                {
+                    vendor.BuyItem(slot.item);
+                }
+                break;
         }
 
-        // Get the item
-        var item = slots[index].item;
-        //Debug.Log("Clicked on item: " + item);
-        //Debug.Log("Attempting to buy item: " + item.itemName);
-        vendor.BuyItem(item);
+        RefreshUI();
     }
 }
