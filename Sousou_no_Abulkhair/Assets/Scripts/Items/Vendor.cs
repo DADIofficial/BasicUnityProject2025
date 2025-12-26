@@ -3,75 +3,104 @@ using UnityEngine;
 
 public class Vendor : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] private GameObject shopMenu;        // UI магазина
+    [SerializeField] private GameObject inventoryMenu;   // UI игрока при открытом магазине
+    [SerializeField] private TextMeshProUGUI currencyText;
 
-    [SerializeField] private GameObject ShopMenu;
-    [SerializeField] private GameObject InventoryMenu;
+    [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private Player player;
-    [SerializeField] TextMeshProUGUI currencyText;
+
     private bool menuActivated = false;
-    public int coeff = 1;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        UpdateCurrencyText();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.gameObject.tag);
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            menuActivated = true;
-            Cursor.visible = true;
-            ShopMenu.SetActive(menuActivated);
-            InventoryMenu.SetActive(true);
+            OpenShop();
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            menuActivated = false;
-            Cursor.visible = false;
-            ShopMenu.SetActive(menuActivated);
-            InventoryMenu.SetActive(false);
+            CloseShop();
         }
     }
 
-    public void BuyItem(Item item)
+    private void OpenShop()
     {
-        InventoryInstance instance = new InventoryInstance(item, 1);
-        if (player.leaves >= item.price && playerInventory.Add(instance))
-        {
-            player.leaves -= item.price * coeff;
-
-            currencyText.text = $"Leaves: {player.leaves}";
-
-            //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: " + item.itemName);
-        }
-        else
-        {
-            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
-        }
+        menuActivated = true;
+        Cursor.visible = true;
+        shopMenu.SetActive(true);
+        inventoryMenu.SetActive(true);
     }
 
+    private void CloseShop()
+    {
+        menuActivated = false;
+        Cursor.visible = false;
+        shopMenu.SetActive(false);
+        inventoryMenu.SetActive(false);
+    }
+
+    /// <summary>
+    /// Покупка предмета игроком
+    /// </summary>
+    public bool BuyItem(Item item)
+    {
+        if (item == null) return false;
+
+        if (player.leaves >= item.price)
+        {
+            bool added = playerInventory.Add(new InventoryInstance(item, 1));
+            if (added)
+            {
+                player.leaves -= item.price;
+                UpdateCurrencyText();
+                Debug.Log($"Куплено: {item.itemName}");
+                return true;
+            }
+            else
+            {
+                Debug.Log("Инвентарь игрока полный!");
+                //return false;
+            }
+        }
+        Debug.Log("Недостаточно Leaves!");
+        return false;
+    }
+
+    /// <summary>
+    /// Продажа предмета игроком
+    /// </summary>
     public void SellItem(Item item)
     {
+        if (item == null) return;
+
         player.leaves += item.price / 100;
         playerInventory.Remove(item);
+        UpdateCurrencyText();
 
-        //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ: " + item.itemName);
+        Debug.Log($"Продано: {item.itemName}");
+    }
+
+    /// <summary>
+    /// Обновление текста валюты игрока
+    /// </summary>
+    private void UpdateCurrencyText()
+    {
+        if (currencyText != null)
+        {
+            currencyText.text = $"Leaves: {player.leaves}";
+        }
     }
 }

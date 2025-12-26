@@ -1,11 +1,11 @@
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-using static QuestController;
 
 public class PlayerInventory : MonoBehaviour
 {
     public Inventory inventory;
+
     [SerializeField] InventoryUI inventoryUI;
     // public static QuestController instance;
 
@@ -50,5 +50,12 @@ public class PlayerInventory : MonoBehaviour
 
         instance = null;
         return false;
+    }
+
+    public void RemoveBySlotIndex(int index)
+    {
+        inventory.RemoveBySlotIndex(index);
+        QuestController.instance.CheckInventoryForQuests();
+        inventoryUI.RefreshUI();
     }
 }
