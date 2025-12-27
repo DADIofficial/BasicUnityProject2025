@@ -11,7 +11,21 @@ public class QuestUI : MonoBehaviour
     public GameObject questEntryPrefab;
     public GameObject objectiveTextPrefab;
 
+    public static QuestUI instance;
+    private GiveQuest currentGiver;
+
     private List<QuestProgress> activateQuests;
+
+    private void Awake() => instance = this;
+
+    public void Show(GiveQuest giver)
+    {
+        currentGiver = giver;
+    }
+
+    public void OnAcceptPressed() => currentGiver?.AcceptQuest();
+    public void OnHandInPressed() => currentGiver?.HandInQuest();
+
     void Start()
     {
         activateQuests = QuestController.instance.activateQuests;

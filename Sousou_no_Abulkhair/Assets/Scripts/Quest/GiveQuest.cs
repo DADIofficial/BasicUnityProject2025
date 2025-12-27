@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class GiveQuest : MonoBehaviour
@@ -20,21 +20,30 @@ public class GiveQuest : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+
         Cursor.visible = true;
-        questInfo.SetActive(true);
         playerInside = true;
+
+        QuestUI.instance.Show(this);
+
+        questInfo.SetActive(true);
+        questText.text = questGiver.offerText; 
+        UpdateQuestText();
     }
+
 
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
         Cursor.visible = false;
+        UpdateQuestText();
         questInfo.SetActive(false);
         playerInside = false;
     }
 
     public void AcceptQuest()
     {
+        Debug.Log($"Accept pressed on NPC: {gameObject.name}, quest: {quest.questId}");
         if (!playerInside || QuestController.instance.IsQuestHandedIn(quest.questId)) return;
         QuestController.instance.AcceptQuest(quest);
         questInfo.SetActive(false);

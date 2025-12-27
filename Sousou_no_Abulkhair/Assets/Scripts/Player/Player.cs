@@ -8,7 +8,37 @@ public class Player : MonoBehaviour
     public int mana = 100;
     public int leaves = 10;
     [SerializeField] private float speed = 5.0f;
-    [SerializeField] private GameObject weapon = null;
+    [SerializeField] private PlayerInventory playerInventory;
+    [Header("Weapon")]
+    public Transform weaponSocket;      // куда крепим
+    public GameObject weaponPrefab;     // текущее оружие
+
+    private GameObject currentWeapon;
+
+    void Start()
+    {
+        EquipWeapon(weaponPrefab);
+    }
+
+    public void EquipWeapon(GameObject newWeapon)
+    {
+        // удалить старое оружие
+        if (currentWeapon != null)
+            Destroy(currentWeapon);
+
+        if (newWeapon == null) return;
+
+        // создать новое
+        currentWeapon = Instantiate(newWeapon, weaponSocket);
+        currentWeapon.transform.localPosition = Vector3.zero;
+        currentWeapon.transform.localRotation = Quaternion.identity;
+    }
+
+    public void ChangeWeapon(GameObject newWeapon)
+    {
+        weaponPrefab = newWeapon;
+        EquipWeapon(newWeapon);
+    }
 
     public void UseItem(Item item)
     {
@@ -27,5 +57,6 @@ public class Player : MonoBehaviour
                 stamina += potion.restoreAmount;
             }
         }
+        playerInventory.Remove(item, 1);
     }
 }

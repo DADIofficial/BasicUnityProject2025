@@ -4,7 +4,8 @@ using UnityEngine;
 public enum ItemType
 {
     Key, 
-    Potion
+    Potion, 
+    Weapon
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]

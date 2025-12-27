@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b765a7e39639f1f4b98fe16d4572ec7f, type: 3}
+  m_Name: SecondQuest
+  m_EditorClassIdentifier: 
+  questId: 642dba19-5f4d-4f25-86b1-f85dc8f08a92
+  questName: FirstKey
+  description: Find me first key
+  objectives:
+  - objectiveId: 3
+    description: Find me first Key
+    type: 1
+    requiredAmount: 1
+    currentAmount: 0
+  questRewards:
+  - type: 0
+    item: {fileID: 0}
+    amount: 1000
+  giverId: 
+  turnInAtGiver: 1
