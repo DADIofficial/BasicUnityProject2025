@@ -4,7 +4,8 @@ using UnityEngine;
 public enum ItemType
 {
     Key, 
-    Potion
+    Potion, 
+    Weapon
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
@@ -15,6 +16,11 @@ public class Item : ScriptableObject
     public int price;
     public Sprite icon;
     public string description;
-    public ItemType itemType; 
-    
+    public ItemType itemType;
+
+    public virtual void OnRightClick(Player player)
+    {
+        
+    }
+
 }

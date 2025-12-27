@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e55eb90af6e879429610094550df3ca, type: 3}
-  m_Name: ItemDb
+  m_Script: {fileID: 11500000, guid: 1f8bf4f937072de46a5596588eba3f84, type: 3}
+  m_Name: TestKey
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
+  itemId: 2
+  itemName: FirstKey
+  price: 0
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  description: To lock first door
+  itemType: 0

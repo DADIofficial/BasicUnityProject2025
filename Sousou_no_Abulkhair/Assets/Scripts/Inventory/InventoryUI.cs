@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -57,13 +58,13 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public virtual void OnSlotClicked(int index)
+    public virtual void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
         var slot = inventory.slots[index];
         Debug.Log(slot);
         if (slot == null || slot.item == null) return;
         Debug.Log("Surprise, Motherfucker! Inventory UI click");
-        switch (inventory.inventoryType)
+        /*switch (inventory.inventoryType)
         {
             case InventoryType.Player:
             case InventoryType.Chest:
@@ -76,6 +77,27 @@ public class InventoryUI : MonoBehaviour
                     vendor.BuyItem(slot.item);
                 }
                 break;
+        }*/
+
+
+        if (button == PointerEventData.InputButton.Left)
+        {
+            if (vendor == null)
+            {
+                playerInventory.RemoveBySlotIndex(index);
+            }
+            else
+            {
+                vendor.SellItem(index);
+            }
+        }
+        else if (button == PointerEventData.InputButton.Right)
+        {
+            var item = playerInventory.inventory.slots[index]?.item;
+            if (item.itemType != ItemType.Weapon)
+                return;
+            item?.OnRightClick(Player.instance);
+            //RightClickAction(index);
         }
 
         RefreshUI();

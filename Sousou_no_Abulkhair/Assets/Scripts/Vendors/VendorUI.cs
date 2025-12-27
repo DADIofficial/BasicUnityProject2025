@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VendorUI : InventoryUI
 {
     //public PlayerInventory heroInventory;
 
     // Переопределяем OnSlotClicked для покупки
-    public override void OnSlotClicked(int index)
+    public override void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
         var slot = playerInventory.inventory.slots[index];
         Debug.Log(slot.item);
@@ -16,13 +17,9 @@ public class VendorUI : InventoryUI
         {
             var item = slot.item;
             InventoryInstance itemInstance = new InventoryInstance(item, 1);
-            if (vendor.BuyItem(item))
+            if (vendor.BuyItem(item, index))
             {
                 Debug.Log("Игрок купил: " + item.itemName);
-            }
-            else
-            {
-                Debug.Log("Инвентарь игрока полный!");
             }
         }
 
