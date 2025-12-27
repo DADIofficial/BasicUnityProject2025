@@ -12,4 +12,9 @@ public class WeaponItem : Item
         if (string.IsNullOrEmpty(weaponId))
             weaponId = System.Guid.NewGuid().ToString();
     }
+
+    public override void OnRightClick(Player player)
+    {
+        Player.instance.EquipWeapon(weaponPrefab);
+    }
 }

@@ -93,6 +93,10 @@ public class InventoryUI : MonoBehaviour
         }
         else if (button == PointerEventData.InputButton.Right)
         {
+            var item = playerInventory.inventory.slots[index]?.item;
+            if (item.itemType != ItemType.Weapon)
+                return;
+            item?.OnRightClick(Player.instance);
             //RightClickAction(index);
         }
 

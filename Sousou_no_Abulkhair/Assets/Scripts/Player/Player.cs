@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
     public int health = 100;
     public int stamina = 100;
     public int mana = 100;
@@ -14,6 +15,12 @@ public class Player : MonoBehaviour
     public GameObject weaponPrefab;     // текущее оружие
 
     private GameObject currentWeapon;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -56,7 +63,7 @@ public class Player : MonoBehaviour
             {
                 stamina += potion.restoreAmount;
             }
+            playerInventory.Remove(item, 1);
         }
-        playerInventory.Remove(item, 1);
     }
 }

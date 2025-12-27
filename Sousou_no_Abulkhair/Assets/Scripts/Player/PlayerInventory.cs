@@ -54,8 +54,21 @@ public class PlayerInventory : MonoBehaviour
 
     public void RemoveBySlotIndex(int index)
     {
+        var item = inventory.slots[index].item;
+        if (item is WeaponItem weaponItem)
+        {
+            if (Player.instance.weaponPrefab == weaponItem.weaponPrefab)
+            {
+                Player.instance.ChangeWeapon(null);
+            }
+        }
         inventory.RemoveBySlotIndex(index);
         QuestController.instance.CheckInventoryForQuests();
         inventoryUI.RefreshUI();
+    }
+
+    public bool IsInInventory(Item item)
+    {
+        return inventory.IsInInventory(item);
     }
 }

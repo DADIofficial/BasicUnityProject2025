@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49a2c6f288e1f124db873e06366a93dd, type: 3}
-  m_Name: WeaponItem
+  m_Name: SuperWeapon
   m_EditorClassIdentifier: 
-  itemId: 301
-  itemName: Classic sword
-  price: 100
-  icon: {fileID: 0}
-  description: Basic sword
+  itemId: 302
+  itemName: MegaWeapon
+  price: 10000
+  icon: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  description: Very powerful weapon
   itemType: 2
-  weaponId: b0e6b76d-085c-417c-924d-31569ad8a347
-  weaponPrefab: {fileID: 9195407626572706868, guid: 18adb19b35284a74ebd78e94371f74e7, type: 3}
+  weaponId: 900c1e33-fcfa-4654-8b89-0b35d730719c
+  weaponPrefab: {fileID: 7052092077131857445, guid: 7dd6d1f89add8904b938b8b7985221fd, type: 3}
