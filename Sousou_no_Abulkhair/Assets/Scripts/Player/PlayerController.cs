@@ -4,9 +4,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
     [Header("Collision/Slide")]
-    [SerializeField] private float _wallStopDistance = 0.06f; 
-    [SerializeField] private LayerMask _collisionMask; 
-    [SerializeField] private int _maxSlideIterations = 2;  
+    [SerializeField] private float _wallStopDistance = 0.06f;
+    [SerializeField] private LayerMask _collisionMask;
+    [SerializeField] private int _maxSlideIterations = 2;
+    [SerializeField] private SFXManager _sfxManager = new();
 
     private PlayerInputController _playerInputController;
     private CapsuleCollider _capsule;

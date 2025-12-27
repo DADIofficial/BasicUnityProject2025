@@ -6,11 +6,10 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     private Animator anim;
 
     [Header("Attack timings")]
-    public float attackDelay = 0.1f;     // задержка перед началом удара
-    public float attackDuration = 0.5f;  // длительность анимации удара
+    public float attackDelay = 0.1f;
+    public float attackDuration = 0.5f;
 
     [Header("Movement")]
-    // Сюда в инспекторе перетаскиваешь скрипт, который отвечает за движение
     public MonoBehaviour movementScript;
 
     private bool isAttacking = false;
@@ -23,7 +22,6 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
 
     void Update()
     {
-        // Не даём бить, пока уже идёт атака
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             StartCoroutine(AttackRoutine());
@@ -34,16 +32,13 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     {
         isAttacking = true;
 
-        // Отключаем движение, чтобы персонаж стоял
         if (movementScript != null)
             movementScript.enabled = false;
 
-        // Ждём задержку до начала удара
         yield return new WaitForSeconds(attackDelay);
 
         anim.SetBool("IsAttacking", true);
 
-        // Ждём пока проигрывается анимация удара
         yield return new WaitForSeconds(attackDuration);
 
         anim.SetBool("IsAttacking", false);
