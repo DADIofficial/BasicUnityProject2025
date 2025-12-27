@@ -3453,6 +3453,7 @@ MonoBehaviour:
   inventoryMenu: {fileID: 1942462682}
   currencyText: {fileID: 166202071}
   playerInventory: {fileID: 419639082}
+  vendorInventory: {fileID: 537454823}
   player: {fileID: 419639089}
 --- !u!114 &537454823
 MonoBehaviour:
@@ -5179,6 +5180,7 @@ MonoBehaviour:
   inventoryMenu: {fileID: 0}
   currencyText: {fileID: 0}
   playerInventory: {fileID: 0}
+  vendorInventory: {fileID: 0}
   player: {fileID: 0}
 --- !u!65 &681616353
 BoxCollider:
@@ -9712,7 +9714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33dd19e37d99594590f1699007a2467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  database: {fileID: 11400000, guid: 0e7c7c8ef2da7184090e7609055253d4, type: 2}
 --- !u!114 &1339084114
 MonoBehaviour:
   m_ObjectHideFlags: 0
