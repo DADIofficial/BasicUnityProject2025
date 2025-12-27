@@ -10,6 +10,8 @@ public class Vendor : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private PlayerInventory playerInventory;
+    [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private PlayerInventory vendorInventory;
     [SerializeField] private Player player;
 
     private bool menuActivated = false;
@@ -24,6 +26,7 @@ public class Vendor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            inventoryUI.vendor = this;
             OpenShop();
         }
     }
@@ -32,6 +35,7 @@ public class Vendor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            inventoryUI.vendor = null;
             CloseShop();
         }
     }
@@ -55,7 +59,7 @@ public class Vendor : MonoBehaviour
     /// <summary>
     /// Покупка предмета игроком
     /// </summary>
-    public bool BuyItem(Item item)
+    public bool BuyItem(Item item, int index)
     {
         if (item == null) return false;
 
@@ -65,6 +69,7 @@ public class Vendor : MonoBehaviour
             if (added)
             {
                 player.leaves -= item.price;
+                vendorInventory.RemoveBySlotIndex(index);
                 UpdateCurrencyText();
                 Debug.Log($"Куплено: {item.itemName}");
                 return true;
@@ -82,12 +87,14 @@ public class Vendor : MonoBehaviour
     /// <summary>
     /// Продажа предмета игроком
     /// </summary>
-    public void SellItem(Item item)
+    public void SellItem(int index)
     {
+        var item = playerInventory.inventory.slots[index]?.item;
         if (item == null) return;
 
         player.leaves += item.price / 100;
-        playerInventory.Remove(item);
+        playerInventory.RemoveBySlotIndex(index);
+        vendorInventory.Add(new InventoryInstance(item, 1));
         UpdateCurrencyText();
 
         Debug.Log($"Продано: {item.itemName}");

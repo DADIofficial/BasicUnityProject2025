@@ -123,4 +123,18 @@ public class Inventory : ScriptableObject
         slots[index].item = null;
         slots[index].count = 0;
     }
+
+    public bool IsInInventory(Item item)
+    {
+        bool found = false;
+        foreach (var slot in slots)
+        {
+            if (slot.count > 0 && slot.item == item)
+            {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
 }
