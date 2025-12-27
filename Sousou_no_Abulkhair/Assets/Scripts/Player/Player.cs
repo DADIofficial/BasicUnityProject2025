@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -11,10 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private PlayerInventory playerInventory;
     [Header("Weapon")]
-    public Transform weaponSocket;      // куда крепим
-    public GameObject weaponPrefab;     // текущее оружие
+    public Transform weaponSocket;
+    public WeaponItem currentWeaponItem;
 
-    private GameObject currentWeapon;
+    private GameObject currentWeaponObject;
 
     private void Awake()
     {
@@ -24,27 +25,55 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        EquipWeapon(weaponPrefab);
+        EquipWeapon(currentWeaponItem);
     }
 
-    public void EquipWeapon(GameObject newWeapon)
+    public void EquipWeapon(WeaponItem weaponItem)
     {
         // удалить старое оружие
-        if (currentWeapon != null)
-            Destroy(currentWeapon);
+        if (currentWeaponObject != null)
+            Destroy(currentWeaponObject);
 
-        if (newWeapon == null) return;
+        currentWeaponItem = weaponItem;
 
-        // создать новое
-        currentWeapon = Instantiate(newWeapon, weaponSocket);
-        currentWeapon.transform.localPosition = Vector3.zero;
-        currentWeapon.transform.localRotation = Quaternion.identity;
+        if (weaponItem == null) return;
+        if(!playerInventory.IsInInventory(weaponItem))
+        {
+            currentWeaponItem = null;
+            return;
+        }
+
+        currentWeaponObject = Instantiate(
+            weaponItem.weaponPrefab,
+            weaponSocket
+        );
+
+        currentWeaponObject.transform.localPosition = Vector3.zero;
+        currentWeaponObject.transform.localRotation = Quaternion.identity;
+        int index = GetCurrentWeaponIndex();
+        Debug.Log("Current weapon index in slot: " + index);
     }
 
-    public void ChangeWeapon(GameObject newWeapon)
+    public void ChangeWeapon(WeaponItem newWeapon)
     {
-        weaponPrefab = newWeapon;
+        currentWeaponItem = newWeapon;
         EquipWeapon(newWeapon);
+        //int index = GetCurrentWeaponIndex();
+        //Debug.Log("Current weapon index in slot: " + index);
+    }
+
+    public int GetCurrentWeaponIndex()
+    {
+        if (currentWeaponItem == null) return -1;
+        for (int i = 0; i < playerInventory.inventory.slots.Count; i++)
+        {
+            var slot = playerInventory.inventory.slots[i];
+            if (slot != null && slot.item == currentWeaponItem)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void UseItem(Item item)

@@ -57,7 +57,7 @@ public class PlayerInventory : MonoBehaviour
         var item = inventory.slots[index].item;
         if (item is WeaponItem weaponItem)
         {
-            if (Player.instance.weaponPrefab == weaponItem.weaponPrefab)
+            if (Player.instance.currentWeaponItem == weaponItem)
             {
                 Player.instance.ChangeWeapon(null);
             }

@@ -15,6 +15,6 @@ public class WeaponItem : Item
 
     public override void OnRightClick(Player player)
     {
-        Player.instance.EquipWeapon(weaponPrefab);
+        Player.instance.EquipWeapon(this);
     }
 }

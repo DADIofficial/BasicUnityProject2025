@@ -15631,6 +15631,10 @@ PrefabInstance:
       propertyPath: playerInventory
       value: 
       objectReference: {fileID: 419639082}
+    - target: {fileID: 7456435301970350057, guid: 3e45593e048108642ba3086a3aecfcc7, type: 3}
+      propertyPath: currentWeaponItem
+      value: 
+      objectReference: {fileID: 11400000, guid: cf73c205a0d577345b2c7b849b5d6c41, type: 2}
     - target: {fileID: 7677040273421297905, guid: 3e45593e048108642ba3086a3aecfcc7, type: 3}
       propertyPath: inventoryUI
       value: 
