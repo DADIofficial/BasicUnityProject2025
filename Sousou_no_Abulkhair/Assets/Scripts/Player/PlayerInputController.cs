@@ -10,4 +10,6 @@ public class PlayerInputController : MonoBehaviour
         // Debug.Log(inputValue.Get<Vector2>());
         MovementInputVector = inputValue.Get<Vector2>();
     }
+
+    
 }

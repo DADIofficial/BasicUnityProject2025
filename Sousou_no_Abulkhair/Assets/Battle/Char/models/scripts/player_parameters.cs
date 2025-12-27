@@ -9,23 +9,25 @@ public class player_parameters : MonoBehaviour
     [SerializeField] private Image _ManaImg;
     [SerializeField] private Image _StaminaImg;
 
-    void Start(){}
+    void Start(){
+        
+    }
     void Update(){}
 
     public void UpdateHP(float maxHP, float currentHP)
     {
-        Debug.Log(currentHP);
-        _HPImg.fillAmount = currentHP / maxHP;
+        _HPImg.fillAmount = maxHP <= 0 ? 0 : currentHP / maxHP;
     }
 
     public void UpdateMana(float maxMana, float currentMana)
     {
-        _ManaImg.fillAmount = currentMana / maxMana;
+        _ManaImg.fillAmount = maxMana <= 0 ? 0 : currentMana / maxMana;
     }
 
     public void UpdateStamina(float maxStamina, float currentStamina)
     {
-        _StaminaImg.fillAmount = currentStamina / maxStamina;
+        _StaminaImg.fillAmount = maxStamina <= 0 ? 0 : currentStamina / maxStamina;
     }
+
 
 }

@@ -1470,6 +1470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleCanva: {fileID: 244896702}
+  magicButton: {fileID: 0}
   damageSystem: {fileID: 726674050}
   battleManager: {fileID: 726674049}
   animator: {fileID: 726674046}
@@ -1516,7 +1517,7 @@ MonoBehaviour:
   CritRate: 5
   CritDamage: 1.5
   WeaponID: 4
-  MagicID: 13
+  MagicID: 10
   Damage: 0
   AttackDatas: {fileID: 11400000, guid: abb4ed4edbbacc4459d1319e40a175b0, type: 2}
 --- !u!1 &731941100 stripped

@@ -2,11 +2,14 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 
 public class Player_battle : MonoBehaviour
 {
     [SerializeField] private CanvasGroup BattleCanva; 
+    [SerializeField] private Button magicButton;
 
     public DamageSystem damageSystem;
 
@@ -36,19 +39,32 @@ public class Player_battle : MonoBehaviour
     public float stamina;
     private float MaxHP;
     private float Maxstamina;
-     private float MaxMana;
+    private float MaxMana;
+
+    private const float MAX_VALUE = 100f;
+
 
     // [SerializeField] private Collider playerCollider; 
 
 
     void Start()
     {
-        MaxHP = hp;
-        Maxstamina = stamina;
-        MaxMana = mana;
+        var save = GameManager.Instance.saveData;
+
+        hp = save.health;
+        mana = save.mana;
+        stamina = save.stamina;
+
+
+        MaxHP = MAX_VALUE;
+        MaxMana = MAX_VALUE;
+        Maxstamina = MAX_VALUE;
 
         StartPos = transform.position;
         StartRot = transform.rotation;
+
+        StartCoroutine(InitUI());
+
     }
 
     void Update(){}
@@ -60,6 +76,20 @@ public class Player_battle : MonoBehaviour
 
         // Debug.Log($"Target selected: EnemyID {enemyID}");
     }
+
+    private IEnumerator InitUI()
+    {
+        yield return null; // ⬅ ждём 1 кадр
+
+        parameters.UpdateHP(MaxHP, hp);
+        parameters.UpdateMana(MaxMana, mana);
+        parameters.UpdateStamina(Maxstamina, stamina);
+
+        Debug.Log(
+            $"[UI INIT]\nHP: {hp}/{MaxHP}\nMana: {mana}/{MaxMana}\nStamina: {stamina}/{Maxstamina}"
+        );
+    }
+
 
     public void Basic_Attack()
     {
@@ -75,7 +105,8 @@ public class Player_battle : MonoBehaviour
     {
         if (IsAttacking) return;
 
-        stamina -=15; 
+        stamina -= 15;
+        stamina = Mathf.Clamp(stamina, 0, Maxstamina);
         parameters.UpdateStamina(Maxstamina, stamina);
 
         damageSystem.EnchDamage();
@@ -89,13 +120,23 @@ public class Player_battle : MonoBehaviour
     {
         if (IsAttacking) return;
 
-        mana -=25;
-        parameters.UpdateStamina(MaxMana, mana);
+        if (mana <= 0)
+        {
+            Debug.Log("Not enough mana");
+            return;
+        }
+
+        mana -= 25;
+        mana = Mathf.Clamp(mana, 0, MaxMana);
+        parameters.UpdateMana(MaxMana, mana);
+
 
         Debug.Log("magic attack");
         IsAttacking = true;
         StartCoroutine(MDamageforAll());
         animator.SetTrigger("magic_attack");
+
+        
     }
 
     private void TryTeleportToTarget()
@@ -106,6 +147,7 @@ public class Player_battle : MonoBehaviour
         if (currentTargetPoint == null)
         {
             Debug.LogWarning("No target selected!");
+            StartCoroutine(TryTeleportToStart());
             return;
         }
 
@@ -152,6 +194,8 @@ public class Player_battle : MonoBehaviour
 
     private IEnumerator MDamageforAll()
     {
+        BattleCanva.GetComponent<CanvasGroup>().interactable = false;
+        BattleCanva.GetComponent<CanvasGroup>().blocksRaycasts = false;
         yield return new WaitForSeconds(3f);
 
         foreach (var enemy in battleManager.BattleEnemies)
@@ -172,6 +216,12 @@ public class Player_battle : MonoBehaviour
     }
 
 
+    private void UpdateMagicButton()
+    {
+        if (magicButton == null) return;
+
+        magicButton.interactable = mana <= 0;
+    }
 
 
 
@@ -182,11 +232,11 @@ public class Player_battle : MonoBehaviour
         if (other.CompareTag("battleEnemWeap"))
         {
 
-            hp -= 5;
-
-            if (parameters != null)
+            if (parameters != null){
+                hp -= 5;
+                hp = Mathf.Clamp(hp, 0, MaxHP);
                 parameters.UpdateHP(MaxHP, hp);
-
+            }
 
             if (hp <=0){
                 Debug.Log("you die");

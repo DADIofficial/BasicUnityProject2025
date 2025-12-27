@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections; 
+using UnityEngine.SceneManagement;
 
 
 
@@ -32,6 +33,18 @@ public class Battle_manager : MonoBehaviour
         if (AreAllEnemiesDead())
         {
             Debug.Log("Win");
+
+            var save = GameManager.Instance.saveData;
+            var battlePlayer = player; // player = Player_battle
+
+            save.health = Mathf.RoundToInt(battlePlayer.hp);
+            save.mana = Mathf.RoundToInt(battlePlayer.mana);
+            save.stamina = 100;
+
+
+            GameManager.Instance.KillEnemy(GameManager.Instance.currentEnemyID);
+            SceneManager.LoadScene("MainLevel");
+
             yield break; 
         }
 

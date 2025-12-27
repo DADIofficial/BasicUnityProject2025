@@ -6,12 +6,14 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     private Animator anim;
 
     [Header("Attack timings")]
-    public float attackDelay = 0.1f;     // задержка перед началом удара
-    public float attackDuration = 0.5f;  // длительность анимации удара
+    public float attackDelay = 0.1f;
+    public float attackDuration = 0.5f;
 
     [Header("Movement")]
-    // Сюда в инспекторе перетаскиваешь скрипт, который отвечает за движение
     public MonoBehaviour movementScript;
+
+    [Header("Weapon")]
+    [SerializeField] private Collider weaponCollider;
 
     private bool isAttacking = false;
 
@@ -19,11 +21,14 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         anim.SetBool("IsAttacking", false);
+
+        // РњР•Р§ Р’РЎР•Р“Р”Рђ Р’Р«РљР›Р®Р§Р•Рќ Р’РќР• РђРўРђРљРС‘
+        if (weaponCollider != null)
+            weaponCollider.enabled = false;
     }
 
     void Update()
     {
-        // Не даём бить, пока уже идёт атака
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             StartCoroutine(AttackRoutine());
@@ -34,21 +39,27 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     {
         isAttacking = true;
 
-        // Отключаем движение, чтобы персонаж стоял
         if (movementScript != null)
             movementScript.enabled = false;
 
-        // Ждём задержку до начала удара
+        // Р·Р°РґРµСЂР¶РєР° РїРµСЂРµРґ СѓРґР°СЂРѕРј (wind-up)
         yield return new WaitForSeconds(attackDelay);
+
+        // Р’РљР›Р®Р§РђР•Рњ РҐРРўР‘РћРљРЎ
+        if (weaponCollider != null)
+            weaponCollider.enabled = true;
 
         anim.SetBool("IsAttacking", true);
 
-        // Ждём пока проигрывается анимация удара
+        // РІСЂРµРјСЏ Р°РєС‚РёРІРЅРѕРіРѕ СѓРґР°СЂР°
         yield return new WaitForSeconds(attackDuration);
 
         anim.SetBool("IsAttacking", false);
 
-        // Включаем движение обратно
+        // Р’Р«РљР›Р®Р§РђР•Рњ РҐРРўР‘РћРљРЎ
+        if (weaponCollider != null)
+            weaponCollider.enabled = false;
+
         if (movementScript != null)
             movementScript.enabled = true;
 
