@@ -14,51 +14,42 @@ public class Vendor : MonoBehaviour
     [SerializeField] private PlayerInventory vendorInventory;
     [SerializeField] private Player player;
 
-    private bool menuActivated = false;
-
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
+        // ВАЖНО: не трогаем курсор в Start, иначе ты сломаешь FPS-лок
+        CloseShopUIOnly();
         UpdateCurrencyText();
     }
 
-    private void OnTriggerEnter(Collider other)
+    // Вызывается из InteractableObject -> onOpen
+    public void OpenVendor()
     {
-        if (other.CompareTag("Player"))
-        {
-            inventoryUI.vendor = this;
-            OpenShop();
-        }
-    }
+        inventoryUI.vendor = this;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            inventoryUI.vendor = null;
-            CloseShop();
-        }
-    }
-
-    private void OpenShop()
-    {
-        menuActivated = true;
         Cursor.visible = true;
-        shopMenu.SetActive(true);
-        inventoryMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+
+        if (shopMenu != null) shopMenu.SetActive(true);
+        if (inventoryMenu != null) inventoryMenu.SetActive(true);
+
+        UpdateCurrencyText();
     }
 
-    private void CloseShop()
+    // Вызывается из InteractableObject -> onClose
+    public void CloseVendor()
     {
-        menuActivated = false;
-        Cursor.visible = false;
-        shopMenu.SetActive(false);
-        inventoryMenu.SetActive(false);
+        inventoryUI.vendor = null;
+
+        CloseShopUIOnly();
     }
 
-    /// <summary>
-    /// Покупка предмета игроком
-    /// </summary>
+    private void CloseShopUIOnly()
+    {
+        if (shopMenu != null) shopMenu.SetActive(false);
+        if (inventoryMenu != null) inventoryMenu.SetActive(false);
+    }
+
+    /// <summary> Покупка предмета игроком </summary>
     public bool BuyItem(Item item, int index)
     {
         if (item == null) return false;
@@ -74,22 +65,20 @@ public class Vendor : MonoBehaviour
                 Debug.Log($"Куплено: {item.itemName}");
                 return true;
             }
-            else
-            {
-                Debug.Log("Инвентарь игрока полный!");
-                //return false;
-            }
+
+            Debug.Log("Инвентарь игрока полный!");
+            return false;
         }
+
         Debug.Log("Недостаточно Leaves!");
         return false;
     }
 
-    /// <summary>
-    /// Продажа предмета игроком
-    /// </summary>
+    /// <summary> Продажа предмета игроком </summary>
     public void SellItem(int index)
     {
-        var item = playerInventory.inventory.slots[index]?.item;
+        var slot = playerInventory.inventory.slots[index];
+        var item = slot?.item;
         if (item == null) return;
 
         player.leaves += item.price / 100;
@@ -100,14 +89,19 @@ public class Vendor : MonoBehaviour
         Debug.Log($"Продано: {item.itemName}");
     }
 
-    /// <summary>
-    /// Обновление текста валюты игрока
-    /// </summary>
     private void UpdateCurrencyText()
     {
         if (currencyText != null)
-        {
             currencyText.text = $"{player.leaves}";
-        }
+    }
+
+    // (Опционально) кнопка "Закрыть" в UI магазина
+    public void CloseByButton()
+    {
+        if (PlayerInteractor.Instance != null)
+            PlayerInteractor.Instance.EndInteraction();
+        else
+            CloseVendor();
     }
 }
+
