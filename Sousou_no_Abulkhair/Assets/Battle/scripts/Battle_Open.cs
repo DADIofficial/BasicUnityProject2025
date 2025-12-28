@@ -8,43 +8,55 @@ public class Battle_Open : MonoBehaviour
     private Transform player;
     private bool triggered;
 
-    
-
-
     private void Awake()
     {
-        // 🔥 берём ID САМОГО СЕБЯ
         enemyWorldID = GetComponent<EnemyWorldID>();
+        if (enemyWorldID == null)
+        {
+            Debug.LogError("[Battle_Open] EnemyWorldID missing!");
+            return;
+        }
 
-        // игрок — глобальный
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        if (player == null)
+        {
+            Debug.LogError("[Battle_Open] Player not found!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (triggered) return;
+        if (triggered)
+            return;
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
-        {
-            triggered = true;
+        if (other.gameObject.layer != LayerMask.NameToLayer("PlayerWeapon"))
+            return;
 
-            var save = GameManager.Instance.saveData;
-            var playerScript = player.GetComponent<Player>();
+        triggered = true;
 
-            save.playerPosition = player.position;
-            save.playerRotation = player.rotation;
-            save.hasSavedPosition = true;
+        var save = GameManager.Instance.saveData;
+        var playerScript = player.GetComponent<Player>();
 
-            save.health = playerScript.health;
-            save.mana = playerScript.mana;
-            save.stamina = 100;
+        // ✅ только вход в бой
+        save.battleEntryEnemyPosition = transform.position;
 
-            GameManager.Instance.currentEnemyID = enemyWorldID.id;
+        save.playerPosition = player.position;
+        save.playerRotation = player.rotation;
+        save.hasSavedPosition = true;
 
-            StartCoroutine(LoadBattleScene());
-        }
+        save.health = playerScript.health;
+        save.mana = playerScript.mana;
+        save.stamina = 100;
+
+        save.weaponID = int.Parse(playerScript.GetCurrentWeaponID());
+
+        GameManager.Instance.currentEnemyID = enemyWorldID.id;
+
+        // чтобы не триггерилось повторно
+        GetComponent<Collider>().enabled = false;
+
+        StartCoroutine(LoadBattleScene());
     }
-
 
     private IEnumerator LoadBattleScene()
     {

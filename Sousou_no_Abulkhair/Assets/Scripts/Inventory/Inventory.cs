@@ -137,4 +137,28 @@ public class Inventory : ScriptableObject
         }
         return found;
     }
+
+
+
+    public void SetFromSave(List<ChestItemSaveData> items)
+    {
+        Clear();
+
+        foreach (var data in items)
+        {
+            Item item = ItemDB.Get(data.itemId);
+            AddItem(new InventoryInstance(item, data.count));
+        }
+    }
+
+    public void Clear()
+    {
+        foreach (var slot in slots)
+        {
+            slot.item = null;
+            slot.count = 0;
+        }
+    }
+
+
 }

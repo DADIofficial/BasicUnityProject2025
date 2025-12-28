@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: WeaponData
   m_EditorClassIdentifier: 
   weapons:
-  - WID: 1
+  - WID: 301
     weaponName: Basic
     weaponCoff: 0.5
-  - WID: 2
+  - WID: 303
     weaponName: ench
     weaponCoff: 1
-  - WID: 3
+  - WID: 304
     weaponName: hero
     weaponCoff: 2
-  - WID: 4
+  - WID: 305
     weaponName: god
     weaponCoff: 150
   magics:

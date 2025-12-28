@@ -5,12 +5,15 @@ public class VendorUI : InventoryUI
 {
     //public PlayerInventory heroInventory;
 
-    // Переопределяем OnSlotClicked для покупки
+    void Start()
+    {
+        RefreshUI();
+    }
+
     public override void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
         var slot = playerInventory.inventory.slots[index];
         Debug.Log(slot.item);
-        Debug.Log("Покупка предмета...");
         if (slot == null || slot.item == null) return;
 
         if (vendor != null)
@@ -19,7 +22,7 @@ public class VendorUI : InventoryUI
             InventoryInstance itemInstance = new InventoryInstance(item, 1);
             if (vendor.BuyItem(item, index))
             {
-                Debug.Log("Игрок купил: " + item.itemName);
+                
             }
         }
 

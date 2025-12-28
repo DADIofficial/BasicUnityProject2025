@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a2c6f288e1f124db873e06366a93dd, type: 3}
+  m_Name: HeroSword
+  m_EditorClassIdentifier: 
+  itemId: 304
+  itemName: HeroSword
+  price: 1000
+  icon: {fileID: 21300000, guid: 61883b89a475aba4882ae64335a273ea, type: 3}
+  description: HeroSword
+  itemType: 2
+  weaponId: ab980b26-162a-40d2-baf8-cf2a0e359d77
+  weaponPrefab: {fileID: 1644861356874702445, guid: 2eb82a27ed7df5c48a098d5eb48b9435, type: 3}

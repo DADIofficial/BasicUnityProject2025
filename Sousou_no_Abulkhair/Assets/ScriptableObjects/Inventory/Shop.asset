@@ -16,18 +16,18 @@ MonoBehaviour:
   height: 5
   inventoryType: 2
   slots:
-  - item: {fileID: 0}
-    count: 0
-  - item: {fileID: 0}
-    count: 0
-  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
+  - item: {fileID: 11400000, guid: dd2ef8dc131cf2c4fb9925347d1efd19, type: 2}
     count: 1
   - item: {fileID: 0}
     count: 0
   - item: {fileID: 0}
     count: 0
-  - item: {fileID: 0}
-    count: 0
+  - item: {fileID: 11400000, guid: 7e458ab611f6bc94a8bce1f41487bce8, type: 2}
+    count: 1
+  - item: {fileID: 11400000, guid: a93ca505f61a0fd408c2c95b95248e22, type: 2}
+    count: 1
+  - item: {fileID: 11400000, guid: 8e51d5419b1541145a1886265d1740f4, type: 2}
+    count: 1
   - item: {fileID: 0}
     count: 0
   - item: {fileID: 0}

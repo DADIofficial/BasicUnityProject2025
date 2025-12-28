@@ -12,19 +12,15 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     [Header("Movement")]
     public MonoBehaviour movementScript;
 
-    [Header("Weapon")]
-    [SerializeField] private Collider weaponCollider;
 
+    [Header("Weapon")]
+    private Collider currentWeaponCollider;
     private bool isAttacking = false;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("IsAttacking", false);
-
-        // МЕЧ ВСЕГДА ВЫКЛЮЧЕН ВНЕ АТАКИё
-        if (weaponCollider != null)
-            weaponCollider.enabled = false;
     }
 
     void Update()
@@ -37,28 +33,28 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
+        // 🔥 БЕРЁМ АКТУАЛЬНЫЙ КОЛЛАЙДЕР ИЗ Player
+        currentWeaponCollider = Player.instance.GetCurrentWeaponCollider();
+
+        if (currentWeaponCollider == null)
+            yield break;
+
+        currentWeaponCollider.enabled = false;
+
         isAttacking = true;
 
         if (movementScript != null)
             movementScript.enabled = false;
 
-        // задержка перед ударом (wind-up)
         yield return new WaitForSeconds(attackDelay);
 
-        // ВКЛЮЧАЕМ ХИТБОКС
-        if (weaponCollider != null)
-            weaponCollider.enabled = true;
-
+        currentWeaponCollider.enabled = true;
         anim.SetBool("IsAttacking", true);
 
-        // время активного удара
         yield return new WaitForSeconds(attackDuration);
 
         anim.SetBool("IsAttacking", false);
-
-        // ВЫКЛЮЧАЕМ ХИТБОКС
-        if (weaponCollider != null)
-            weaponCollider.enabled = false;
+        currentWeaponCollider.enabled = false;
 
         if (movementScript != null)
             movementScript.enabled = true;

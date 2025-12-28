@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a2c6f288e1f124db873e06366a93dd, type: 3}
+  m_Name: EnchSword
+  m_EditorClassIdentifier: 
+  itemId: 303
+  itemName: EnchSowrd
+  price: 150
+  icon: {fileID: 21300000, guid: ffc1a972c3d186d4597bab057c65cdbe, type: 3}
+  description: EnchSowrd
+  itemType: 2
+  weaponId: 133d450f-048e-4bd9-8f1b-024f506ab3a7
+  weaponPrefab: {fileID: 868962833460092971, guid: a867c2e318e4dec44845b1cbc79ffd78, type: 3}

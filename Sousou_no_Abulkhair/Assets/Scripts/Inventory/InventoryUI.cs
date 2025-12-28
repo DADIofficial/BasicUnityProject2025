@@ -8,8 +8,8 @@ public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
     [SerializeField] public PlayerInventory playerInventory;
-    public InventoryButton slotPrefab;    // Префаб кнопки слота
-    public Transform slotParent;          // Parent для кнопок
+    public InventoryButton slotPrefab;    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public Transform slotParent;          // Parent пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     public Vendor vendor;
 
     private Transform[] waypoints;
@@ -19,6 +19,12 @@ public class InventoryUI : MonoBehaviour
         //CreateSlots();
         RefreshUI();
     }
+
+    private void OnEnable()
+    {
+        PlayerInventory.OnInventoryChanged += RefreshUI;
+    }
+
 
     public void RefreshUI()
     {
@@ -39,13 +45,11 @@ public class InventoryUI : MonoBehaviour
                 slotUI.inventoryUI = this;
             }
 
-            // Очистка изображения
             Image slotImage = waypoints[i].GetComponent<Image>();
             if (slotImage != null)
                 slotImage.sprite = null;
         }
 
-        // Заполняем иконками предметов
         for (int i = 0; i < playerInventory.inventory.slots.Count && i < waypoints.Length; i++)
         {
             var slot = playerInventory.inventory.slots[i];
@@ -63,7 +67,7 @@ public class InventoryUI : MonoBehaviour
         var slot = inventory.slots[index];
         Debug.Log(slot);
         if (slot == null || slot.item == null) return;
-        Debug.Log("Surprise, Motherfucker! Inventory UI click");
+        // Debug.Log("Surprise, Motherfucker! Inventory UI click");
         /*switch (inventory.inventoryType)
         {
             case InventoryType.Player:
@@ -93,11 +97,40 @@ public class InventoryUI : MonoBehaviour
         }
         else if (button == PointerEventData.InputButton.Right)
         {
+            
             var item = playerInventory.inventory.slots[index]?.item;
+
+            if (item is PotionItem potion)
+            {
+                // Debug.Log("hp/mana/stamina");
+                GameManager.Instance.UsePotion(potion);
+
+                inventory.RemoveBySlotIndex(index);
+
+                RefreshUI();
+                return;
+            }
+
+
+            if (item.itemType == ItemType.Potion)
+            {
+                int Id = int.Parse(item.itemId);
+                GameManager.Instance.ChangeMagic(Id);
+
+                inventory.RemoveBySlotIndex(index);
+
+                RefreshUI();
+                return;
+            }
+
+
             if (item.itemType != ItemType.Weapon)
                 return;
             item?.OnRightClick(Player.instance);
-            //RightClickAction(index);
+
+            
+
+            // RightClickAction(index);
         }
 
         RefreshUI();

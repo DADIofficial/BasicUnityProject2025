@@ -19,9 +19,8 @@ public class EnemyWorldID : MonoBehaviour
     private void Awake()
     {
         if (GameManager.Instance != null &&
-            GameManager.Instance.IsEnemyKilled(id))
-        {
-            Destroy(gameObject);
+            GameManager.Instance.IsEnemyKilled(id)){
+                Destroy(gameObject);
         }
     }
 }

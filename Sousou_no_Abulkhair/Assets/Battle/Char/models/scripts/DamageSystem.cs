@@ -21,15 +21,30 @@ public class DamageSystem : MonoBehaviour
 
     void Start()
     {
-        WData Wdata = AttackDatas.GetWeaponByID(WeaponID);
-        WCoff = Wdata.weaponCoff;
+        // WData Wdata = AttackDatas.GetWeaponByID(WeaponID);
+        // WCoff = Wdata.weaponCoff;
 
-        MData Mdata = AttackDatas.GetMagicByID(MagicID);
-        MCoff = Mdata.magicCoff;
-
-        
+        // MData Mdata = AttackDatas.GetMagicByID(MagicID);
+        // MCoff = Mdata.magicCoff;
 
     }
+
+    public void InitFromSave(int weaponID)
+    {
+        WeaponID = weaponID;
+
+        WData Wdata = AttackDatas.GetWeaponByID(WeaponID);
+        WCoff = Wdata.weaponCoff;
+    }
+
+    public void InitFromSaveMagic(int magicID)
+    {
+        MagicID = magicID;
+        MData Mdata = AttackDatas.GetMagicByID(MagicID);
+        MCoff = Mdata.magicCoff;
+        
+    }
+
 
     // Update is called once per frame
     void Update()

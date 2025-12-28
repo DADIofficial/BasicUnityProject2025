@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 301
   itemName: Classic sword
   price: 100
-  icon: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   description: Basic sword
   itemType: 2
   weaponId: b0e6b76d-085c-417c-924d-31569ad8a347

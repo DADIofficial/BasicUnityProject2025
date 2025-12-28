@@ -35,18 +35,29 @@ public class Battle_manager : MonoBehaviour
             Debug.Log("Win");
 
             var save = GameManager.Instance.saveData;
-            var battlePlayer = player; // player = Player_battle
+            var battlePlayer = player;
 
             save.health = Mathf.RoundToInt(battlePlayer.hp);
             save.mana = Mathf.RoundToInt(battlePlayer.mana);
             save.stamina = 100;
 
+            if (save.battleEntryEnemyPosition == Vector3.zero)
+            {
+                Debug.LogError("[BattleManager] battleEntryEnemyPosition is ZERO");
+            }
+            else
+            {
+                save.lastKilledEnemyPosition = save.battleEntryEnemyPosition;
+                save.lastKilledEnemyId = GameManager.Instance.currentEnemyID;
+            }
 
             GameManager.Instance.KillEnemy(GameManager.Instance.currentEnemyID);
-            SceneManager.LoadScene("MainLevel");
+            GameManager.Instance.currentEnemyID = null;
 
-            yield break; 
+            SceneManager.LoadScene("MainLevel");
+            yield break;
         }
+
 
         player.PlayerMode();
     }

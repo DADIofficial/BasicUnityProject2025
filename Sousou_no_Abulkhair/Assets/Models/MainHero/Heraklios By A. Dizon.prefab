@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594907548525156027}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21933568, y: 0.06882695, z: 0.25415292, w: 0.9394472}
-  m_LocalPosition: {x: -0.02600425, y: 0.03823259, z: 0.013051391}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.067, y: 0.088, z: 0.023}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -618,6 +618,7 @@ MonoBehaviour:
   attackDelay: 0.2
   attackDuration: 1.6
   movementScript: {fileID: 7279410383771619939}
+  weaponSocket: {fileID: 0}
 --- !u!114 &7456435301970350057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,7 +637,8 @@ MonoBehaviour:
   leaves: 500
   speed: 5
   playerInventory: {fileID: 0}
-  weapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  currentWeaponItem: {fileID: 0}
 --- !u!114 &8473721625547820362
 MonoBehaviour:
   m_ObjectHideFlags: 0

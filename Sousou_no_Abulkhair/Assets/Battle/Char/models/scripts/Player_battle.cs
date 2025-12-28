@@ -31,20 +31,40 @@ public class Player_battle : MonoBehaviour
 
 
 
-    [SerializeField] private player_parameters parameters;
+    [SerializeField] public player_parameters parameters;
     [SerializeField] private Collider BattleEnemCol; 
 
     public float hp;
     public float mana;
     public float stamina;
-    private float MaxHP;
-    private float Maxstamina;
-    private float MaxMana;
+    public float MaxHP;
+    public float Maxstamina;
+    public float MaxMana;
+
+    private int lastHp;
+    private int lastMana;
+    private int lastStamina;
+
 
     private const float MAX_VALUE = 100f;
 
+    [Header("Weapon")]
+    [SerializeField] private Transform weaponSocket;
+    [SerializeField] private List<WeaponItem> allWeapons;
+    private GameObject currentWeaponObject;
+    private WeaponItem currentWeaponItem;
+
+    private Collider currentWeaponCollider;
+
+
 
     // [SerializeField] private Collider playerCollider; 
+
+
+    void Awake()
+    {
+        GameManager.Instance.RegisterBattlePlayer(this);
+    }
 
 
     void Start()
@@ -60,14 +80,31 @@ public class Player_battle : MonoBehaviour
         MaxMana = MAX_VALUE;
         Maxstamina = MAX_VALUE;
 
+        lastHp = (int)hp;
+        lastMana = (int)mana;
+        lastStamina = (int)stamina;
+
         StartPos = transform.position;
         StartRot = transform.rotation;
+
+        EquipWeaponByID(save.weaponID);
+        damageSystem.InitFromSave(save.weaponID);
+
 
         StartCoroutine(InitUI());
 
     }
 
-    void Update(){}
+    void Update(){
+        
+        }
+
+    public void SetMagic(){
+        var save = GameManager.Instance.saveData;
+        damageSystem.InitFromSaveMagic(save.magicID);
+
+        
+    }
 
     public void SetTarget(Transform targetPoint, int enemyID)
     {
@@ -94,6 +131,10 @@ public class Player_battle : MonoBehaviour
     public void Basic_Attack()
     {
         if (IsAttacking) return;
+
+        if (currentWeaponCollider != null)
+            currentWeaponCollider.enabled = true;
+
         damageSystem.BasicDamage();
         animator.SetTrigger("Basic_attack");
         IsAttacking = true;
@@ -104,6 +145,9 @@ public class Player_battle : MonoBehaviour
     public void Ench_Attack()
     {
         if (IsAttacking) return;
+
+        if (currentWeaponCollider != null)
+            currentWeaponCollider.enabled = true;
 
         stamina -= 15;
         stamina = Mathf.Clamp(stamina, 0, Maxstamina);
@@ -181,6 +225,9 @@ public class Player_battle : MonoBehaviour
         transform.position = StartPos ;
         transform.rotation = StartRot;  
 
+        if (currentWeaponCollider != null)
+            currentWeaponCollider.enabled = false;
+
         yield return new WaitForSeconds(2f);
         battleManager.EnemiesAttack();
     }
@@ -246,6 +293,101 @@ public class Player_battle : MonoBehaviour
         }
 
     }
+
+
+    private void EquipWeaponByID(int weaponID)
+    {
+        // удаляем старое оружие
+        if (currentWeaponObject != null)
+            Destroy(currentWeaponObject);
+
+        currentWeaponItem = null;
+
+        // ищем WeaponItem по ID
+        foreach (var weapon in allWeapons)
+        {
+            if (int.TryParse(weapon.itemId, out int id) && id == weaponID)
+            {
+                currentWeaponItem = weapon;
+                break;
+            }
+        }
+
+        if (currentWeaponItem == null)
+        {
+            Debug.LogError($"Weapon with ID {weaponID} not found");
+            return;
+        }
+
+        // создаём prefab
+        currentWeaponObject = Instantiate(
+            currentWeaponItem.weaponPrefab,
+            weaponSocket
+        );
+
+
+        currentWeaponCollider =
+            currentWeaponObject.GetComponentInChildren<Collider>(true);
+
+        currentWeaponObject.transform.localPosition = Vector3.zero;
+        currentWeaponObject.transform.localRotation = Quaternion.identity;
+    }
+
+    public void OnPotionUsed(PotionItem potion)
+    {
+        switch (potion.potionType)
+        {
+            case PotionType.Health:
+                hp += potion.restoreAmount;
+                hp = Mathf.Clamp(hp, 0, MaxHP);
+                parameters.UpdateHP(MaxHP, hp);
+                break;
+
+            case PotionType.Mana:
+                mana += potion.restoreAmount;
+                mana = Mathf.Clamp(mana, 0, MaxMana);
+                parameters.UpdateMana(MaxMana, mana);
+                break;
+
+            case PotionType.Stamina:
+                stamina += potion.restoreAmount;
+                stamina = Mathf.Clamp(stamina, 0, Maxstamina);
+                parameters.UpdateStamina(Maxstamina, stamina);
+                break;
+        }
+    }
+
+
+    private void SyncFromSave()
+    {
+
+        
+        var save = GameManager.Instance.saveData;
+
+        if (save.health != lastHp)
+        {
+            hp = save.health;
+            parameters.UpdateHP(MaxHP, hp);
+            lastHp = save.health;
+        }
+
+        if (save.mana != lastMana)
+        {
+            Debug.Log("mana");
+            mana = save.mana;
+            parameters.UpdateMana(MaxMana, mana);
+            lastMana = save.mana;
+        }
+
+        if (save.stamina != lastStamina)
+        {
+            Debug.Log("stamina");
+            stamina = save.stamina;
+            parameters.UpdateStamina(Maxstamina, stamina);
+            lastStamina = save.stamina;
+        }
+    }
+
 
 
 

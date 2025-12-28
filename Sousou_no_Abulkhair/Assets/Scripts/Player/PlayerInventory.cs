@@ -6,7 +6,7 @@ public class PlayerInventory : MonoBehaviour
 {
     public Inventory inventory;
 
-    [SerializeField] InventoryUI inventoryUI;
+    [SerializeField] private InventoryUI inventoryUI;
     // public static QuestController instance;
 
     public bool Add(InventoryInstance item)
@@ -52,9 +52,12 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
+    public static event System.Action OnInventoryChanged;
+
     public void RemoveBySlotIndex(int index)
     {
         var item = inventory.slots[index].item;
+
         if (item is WeaponItem weaponItem)
         {
             if (Player.instance.currentWeaponItem == weaponItem)
@@ -62,11 +65,13 @@ public class PlayerInventory : MonoBehaviour
                 Player.instance.ChangeWeapon(null);
             }
         }
+
         inventory.RemoveBySlotIndex(index);
         QuestController.instance.CheckInventoryForQuests();
-        inventoryUI.RefreshUI();
-    }
 
+        OnInventoryChanged?.Invoke();
+    }
+    
     public bool IsInInventory(Item item)
     {
         return inventory.IsInInventory(item);

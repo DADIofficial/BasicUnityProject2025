@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public int mana = 100;
     public int leaves = 10;
     [SerializeField] private float speed = 5.0f;
-    [SerializeField] private PlayerInventory playerInventory;
+    public PlayerInventory playerInventory;
     [Header("Weapon")]
     public Transform weaponSocket;
     public WeaponItem currentWeaponItem;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     public void EquipWeapon(WeaponItem weaponItem)
     {
-        // удалить старое оружие
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (currentWeaponObject != null)
             Destroy(currentWeaponObject);
 
@@ -76,23 +76,42 @@ public class Player : MonoBehaviour
         return -1;
     }
 
-    public void UseItem(Item item)
+    // public void UseItem(Item item)
+    // {
+    //     if(item.itemType == ItemType.Potion)
+    //     {
+    //         PotionItem potion = (PotionItem)item;
+    //         if(potion.potionType == PotionType.Health)
+    //         {
+    //             health += potion.restoreAmount;
+    //             Debug.Log("Health: " + health);
+    //         } else if(potion.potionType == PotionType.Mana)
+    //         {
+    //             mana += potion.restoreAmount;
+    //         } else if(potion.potionType == PotionType.Stamina)
+    //         {
+    //             stamina += potion.restoreAmount;
+    //         }
+    //         playerInventory.Remove(item, 1);
+    //     }
+    // }
+
+    public Collider GetCurrentWeaponCollider()
     {
-        if(item.itemType == ItemType.Potion)
-        {
-            PotionItem potion = (PotionItem)item;
-            if(potion.potionType == PotionType.Health)
-            {
-                health += potion.restoreAmount;
-                Debug.Log("Health: " + health);
-            } else if(potion.potionType == PotionType.Mana)
-            {
-                mana += potion.restoreAmount;
-            } else if(potion.potionType == PotionType.Stamina)
-            {
-                stamina += potion.restoreAmount;
-            }
-            playerInventory.Remove(item, 1);
-        }
+        if (currentWeaponObject == null)
+            return null;
+
+        return currentWeaponObject.GetComponentInChildren<Collider>(true);
     }
+
+    public string GetCurrentWeaponID()
+    {
+        if (currentWeaponItem == null)
+            return "1";
+
+        return currentWeaponItem.itemId;
+    }
+
+
+
 }
