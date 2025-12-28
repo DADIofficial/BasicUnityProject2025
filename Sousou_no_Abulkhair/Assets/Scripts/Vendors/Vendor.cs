@@ -107,7 +107,7 @@ public class Vendor : MonoBehaviour
     {
         if (currencyText != null)
         {
-            currencyText.text = $"Leaves: {player.leaves}";
+            currencyText.text = $"{player.leaves}";
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Idle_Walk_TransitAnimation : MonoBehaviour
 {
+    [SerializeField] 
     private Animator anim;
 
     [Header("Attack timings")]
@@ -24,6 +25,7 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
+
             StartCoroutine(AttackRoutine());
         }
     }

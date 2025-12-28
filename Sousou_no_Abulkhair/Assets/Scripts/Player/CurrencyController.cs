@@ -31,6 +31,6 @@ public class CurrencyController : MonoBehaviour
     private void UpdateUI()
     {
         coins = player.leaves;
-        currencyText.text = $"Leaves: {coins}";
+        currencyText.text = $"{coins}";
     }
 }

@@ -7,6 +7,7 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 {
     public enum PlaylistId { First, Second }
 
+
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
 
@@ -21,6 +22,9 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
     [SerializeField] private bool persistBetweenScenes = true;
     [SerializeField] private bool autoSwitchPlaylistOnSceneLoad = true;
     [SerializeField] private bool avoidImmediateRepeat = true;
+
+    private const string PREF_KEY = "MUSIC_VOLUME";
+    public float Volume => audioSource != null ? audioSource.volume : 1f;
 
     private static DualPlaylistMusicPlayer _instance;
     private Coroutine _playLoop;
@@ -156,6 +160,17 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
         while (idx == _lastIndex);
 
         return idx;
+    }
+
+    public void SetVolume(float value01)
+    {
+        if (audioSource == null) return;
+
+        value01 = Mathf.Clamp01(value01);
+        audioSource.volume = value01;
+
+        PlayerPrefs.SetFloat(PREF_KEY, value01);
+        PlayerPrefs.Save();
     }
 }
 

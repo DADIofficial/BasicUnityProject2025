@@ -5,9 +5,7 @@ using UnityEngine;
 public enum SFXType
 {
     Footstep,
-    Attack,
-    FireExplosion
-
+    Attack
 }
 
 [Serializable]
@@ -19,30 +17,52 @@ public struct SFXItem
 
 public class SFXManager : MonoBehaviour
 {
+    private const string PREF_KEY = "SFX_VOLUME";
+
     [SerializeField] private AudioSource audioSource;
     public List<SFXItem> sfxList = new();
+
+    public float Volume => audioSource != null ? audioSource.volume : 1f;
+
+    private void Awake()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            Debug.LogError($"{nameof(SFXManager)}: На объекте нет AudioSource.");
+            enabled = false;
+            return;
+        }
+
+        SetVolume(PlayerPrefs.GetFloat(PREF_KEY, 1f));
+    }
+
+    public void SetVolume(float value01)
+    {
+        if (audioSource == null) return;
+
+        value01 = Mathf.Clamp01(value01);
+        audioSource.volume = value01;
+
+        PlayerPrefs.SetFloat(PREF_KEY, value01);
+        PlayerPrefs.Save();
+    }
 
     public void PlaySFX(SFXType type)
     {
         if (audioSource == null) return;
 
-        // Ищем первый клип с нужным типом
         for (int i = 0; i < sfxList.Count; i++)
         {
-            if (sfxList[i].type == type)
+            if (sfxList[i].type == type && sfxList[i].clip != null)
             {
-                var clip = sfxList[i].clip;
-                if (clip == null)
-                {
-                    Debug.LogWarning($"{nameof(SFXManager)}: No {type}");
-                    return;
-                }
-
-                audioSource.PlayOneShot(clip);
+                audioSource.PlayOneShot(sfxList[i].clip);
                 return;
             }
         }
 
-        Debug.LogWarning($"{nameof(SFXManager)}: Didn't find {type}");
+        Debug.LogWarning($"{nameof(SFXManager)}: Не найден клип для {type}");
     }
 }
