@@ -13,9 +13,9 @@ public class VendorUI : InventoryUI
     public override void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
         var slot = playerInventory.inventory.slots[index];
-        Debug.Log(slot.item);
+        //Debug.Log(slot.item);
         if (slot == null || slot.item == null) return;
-
+        Debug.Log(vendor);
         if (vendor != null)
         {
             var item = slot.item;

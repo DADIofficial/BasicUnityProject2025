@@ -25,5 +25,8 @@ MonoBehaviour:
   - type: 0
     item: {fileID: 0}
     amount: 1000
+  - type: 1
+    item: {fileID: 11400000, guid: b88ced2fa7f3a284596809b6c610b76c, type: 2}
+    amount: 1
   giverId: 
   turnInAtGiver: 1

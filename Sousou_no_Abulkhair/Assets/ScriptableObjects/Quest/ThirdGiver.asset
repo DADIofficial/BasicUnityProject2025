@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd3ee2b2863ff54e8a608b52f881e8c, type: 3}
+  m_Name: ThirdGiver
+  m_EditorClassIdentifier: 
+  giverId: ThirdGiver
+  giverName: ThirdGiver
+  questId: 8a1c88c8-456f-46ba-98b2-5afa2d61700c
+  offerText: Now, you need to get boss sword the most powerful weapon thanks to we
+    can win uprising! The power of Sun will be in our arms!
+  inProgressText: What are you doing?
+  readyToTurnInText: Abulkair, we need to cook!
+  completedText: Execellent! Now we can hacking to the gate!

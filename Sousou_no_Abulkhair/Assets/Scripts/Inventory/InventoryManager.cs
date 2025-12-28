@@ -21,6 +21,7 @@ public class InventoryManager : MonoBehaviour
         {
             //Debug.Log("E key pressed - toggling inventory menu");
             menuActivated = !menuActivated;
+            
             InventoryMenu.SetActive(menuActivated);
         }
         if (Input.GetKeyDown(KeyCode.C))
