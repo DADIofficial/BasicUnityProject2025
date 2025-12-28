@@ -16,56 +16,42 @@ public class Vendor : MonoBehaviour
 
     public int coef;
 
-    private bool menuActivated = false;
-
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
+        // �����: �� ������� ������ � Start, ����� �� �������� FPS-���
+        CloseShopUIOnly();
         UpdateCurrencyText();
     }
 
-    private void OnTriggerEnter(Collider other)
+    // ���������� �� InteractableObject -> onOpen
+    public void OpenVendor()
     {
-        if (other.CompareTag("Player"))
-        {
-            vendorUI.RefreshUI();
-            inventoryUI.vendor = this;
-            vendorUI.playerInventory = this.vendorInventory;
-            vendorUI.inventory = this.vendorInventory.inventory;
-            vendorUI.vendor = this;
-            vendorUI.RefreshUI();
-            OpenShop();
-        }
-    }
+        inventoryUI.vendor = this;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            inventoryUI.vendor = null;
-            vendorUI.playerInventory = null;
-            vendorUI.inventory = null;
-            vendorUI.vendor = null;
-            CloseShop();
-        }
-    }
-
-    private void OpenShop()
-    {
-        menuActivated = true;
         Cursor.visible = true;
-        shopMenu.SetActive(true);
-        inventoryMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+
+        if (shopMenu != null) shopMenu.SetActive(true);
+        if (inventoryMenu != null) inventoryMenu.SetActive(true);
+
+        UpdateCurrencyText();
     }
 
-    private void CloseShop()
+    // ���������� �� InteractableObject -> onClose
+    public void CloseVendor()
     {
-        menuActivated = false;
-        Cursor.visible = false;
-        shopMenu.SetActive(false);
-        inventoryMenu.SetActive(false);
+        inventoryUI.vendor = null;
+
+        CloseShopUIOnly();
     }
 
+    private void CloseShopUIOnly()
+    {
+        if (shopMenu != null) shopMenu.SetActive(false);
+        if (inventoryMenu != null) inventoryMenu.SetActive(false);
+    }
+
+    /// <summary> ������� �������� ������� </summary>
     public bool BuyItem(Item item, int index)
     {
         if (item == null) return false;
@@ -82,20 +68,20 @@ public class Vendor : MonoBehaviour
                 Debug.Log($"{item.itemName}");
                 return true;
             }
-            else
-            {
-                Debug.Log("  !");
-                //return false;
-            }
+
+            Debug.Log("��������� ������ ������!");
+            return false;
         }
-        Debug.Log(" Leaves!");
+
+        Debug.Log("������������ Leaves!");
         return false;
     }
 
-
+    /// <summary> ������� �������� ������� </summary>
     public void SellItem(int index)
     {
-        var item = Player.instance.playerInventory.inventory.slots[index]?.item;
+        var slot = playerInventory.inventory.slots[index];
+        var item = slot?.item;
         if (item == null) return;
 
         Player.instance.leaves += (coef * item.price / 100);
@@ -109,8 +95,16 @@ public class Vendor : MonoBehaviour
     private void UpdateCurrencyText()
     {
         if (currencyText != null)
-        {
-            currencyText.text = $"{Player.instance.leaves}";
-        }
+            currencyText.text = $"{player.leaves}";
+    }
+
+    // (�����������) ������ "�������" � UI ��������
+    public void CloseByButton()
+    {
+        if (PlayerInteractor.Instance != null)
+            PlayerInteractor.Instance.EndInteraction();
+        else
+            CloseVendor();
     }
 }
+
