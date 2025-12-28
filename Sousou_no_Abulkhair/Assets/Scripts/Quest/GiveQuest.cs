@@ -3,82 +3,53 @@ using UnityEngine;
 
 public class GiveQuest : MonoBehaviour
 {
-    public Quest quest; 
+    public Quest quest;
     public QuestGiver questGiver;
+
     [SerializeField] private GameObject questInfo;
     [SerializeField] private TMP_Text questText;
 
-    private bool playerInside;
-
     private void Start()
     {
-        questInfo.SetActive(false);
-        playerInside = false;
-        questText.text = questGiver.offerText;
+        if (questInfo != null) questInfo.SetActive(false);
+        if (questText != null) questText.text = questGiver.offerText;
     }
 
-    private void OnTriggerEnter(Collider other)
+    // Вызывается из InteractableObject -> onOpen
+    public void OpenQuestUI()
     {
-        if (!other.CompareTag("Player")) return;
+        if (questInfo != null) questInfo.SetActive(true);
 
-        Cursor.visible = true;
-        playerInside = true;
+        UpdateQuestText();
 
+        // если у тебя есть отдельная система
         QuestUI.instance.Show(this);
-
-        questInfo.SetActive(true);
-        questText.text = questGiver.offerText; 
-        UpdateQuestText();
     }
 
-
-    private void OnTriggerExit(Collider other)
+    // Вызывается из InteractableObject -> onClose
+    public void CloseQuestUI()
     {
-        if (!other.CompareTag("Player")) return;
-        Cursor.visible = false;
-        UpdateQuestText();
-        questInfo.SetActive(false);
-        playerInside = false;
+        if (questInfo != null) questInfo.SetActive(false);
     }
 
     public void AcceptQuest()
     {
-        Debug.Log($"Accept pressed on NPC: {gameObject.name}, quest: {quest.questId}");
-        if (!playerInside || QuestController.instance.IsQuestHandedIn(quest.questId)) return;
-        QuestController.instance.AcceptQuest(quest);
-        questInfo.SetActive(false);
-        Cursor.visible = false;
-        questText.text = questGiver.inProgressText;
-    }
+        if (QuestController.instance.IsQuestHandedIn(quest.questId)) return;
 
-    private void UpdateQuestText()
-    {
-        if (QuestController.instance.IsQuestHandedIn(quest.questId))
-        {
-            questText.text = questGiver.completedText;
-        }
-        else if (QuestController.instance.IsQuestCompleted(quest.questId))
-        {
-            questText.text = questGiver.readyToTurnInText;
-        }
-        else if (QuestController.instance.IsQuestActive(quest.questId))
-        {
-            questText.text = questGiver.inProgressText;
-        }
-        /*else if (QuestController.instance.IsQuestHandedIn(quest.questId))
-        {
-            questText.text = questGiver.completedText;
-        }*/
+        QuestController.instance.AcceptQuest(quest);
+
+        if (questInfo != null) questInfo.SetActive(false);
+        if (questText != null) questText.text = questGiver.inProgressText;
+
+        // Закрыть взаимодействие и вернуть мир
+        if (PlayerInteractor.Instance != null)
+            PlayerInteractor.Instance.EndInteraction();
     }
 
     public void HandInQuest()
     {
-        if (!playerInside) return;
+        if (!QuestController.instance.IsQuestCompleted(quest.questId)) return;
 
-        if (!QuestController.instance.IsQuestCompleted(quest.questId))
-            return;
-
-        //Debug.Log(quest);
         if (RewardsController.instance.GiveQuestReward(quest))
             QuestController.instance.HandInQuest(quest.questId);
         else
@@ -86,6 +57,21 @@ public class GiveQuest : MonoBehaviour
             Debug.Log("Inventory is full, error quest hand in");
             return;
         }
+
         UpdateQuestText();
+    }
+
+    private void UpdateQuestText()
+    {
+        if (questText == null) return;
+
+        if (QuestController.instance.IsQuestHandedIn(quest.questId))
+            questText.text = questGiver.completedText;
+        else if (QuestController.instance.IsQuestCompleted(quest.questId))
+            questText.text = questGiver.readyToTurnInText;
+        else if (QuestController.instance.IsQuestActive(quest.questId))
+            questText.text = questGiver.inProgressText;
+        else
+            questText.text = questGiver.offerText;
     }
 }

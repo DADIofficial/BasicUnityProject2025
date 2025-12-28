@@ -6,12 +6,10 @@ public class MenuPauseController : MonoBehaviour
 {
     [Header("Menu")]
     [SerializeField] private GameObject menuCanvasRoot;
-
     [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
 
     [Header("Disable player control")]
     [SerializeField] private Behaviour[] disableBehaviours;
-
     [SerializeField] private GameObject[] disableObjects;
 
     [Header("Canvas control")]
@@ -19,6 +17,10 @@ public class MenuPauseController : MonoBehaviour
 
     [Header("Cursor")]
     [SerializeField] private bool showCursorInMenu = true;
+
+    [Header("Pause time")]
+    [SerializeField] private bool pauseTime = true;
+    [SerializeField] private bool pauseAudio = false;
 
     private readonly List<GameObject> _disabledCanvasRoots = new();
     private readonly List<Behaviour> _disabledBehaviours = new();
@@ -28,6 +30,10 @@ public class MenuPauseController : MonoBehaviour
 
     private bool _prevCursorVisible;
     private CursorLockMode _prevCursorLock;
+
+    private float _prevTimeScale = 1f;
+    private float _prevFixedDeltaTime = 0.02f;
+    private bool _prevAudioPaused;
 
     private void Awake()
     {
@@ -57,11 +63,26 @@ public class MenuPauseController : MonoBehaviour
         _menuOpen = true;
 
         DisableOtherCanvases();
-
         menuCanvasRoot.SetActive(true);
-
         DisableControls();
 
+        // ----- PAUSE TIME -----
+        if (pauseTime)
+        {
+            _prevTimeScale = Time.timeScale;
+            _prevFixedDeltaTime = Time.fixedDeltaTime;
+
+            Time.timeScale = 0f;
+            Time.fixedDeltaTime = 0f;
+        }
+
+        if (pauseAudio)
+        {
+            _prevAudioPaused = AudioListener.pause;
+            AudioListener.pause = true;
+        }
+
+        // ----- CURSOR -----
         if (showCursorInMenu)
         {
             _prevCursorVisible = Cursor.visible;
@@ -80,9 +101,21 @@ public class MenuPauseController : MonoBehaviour
         menuCanvasRoot.SetActive(false);
 
         RestoreControls();
-
         RestoreCanvases();
 
+        // ----- RESUME TIME -----
+        if (pauseTime)
+        {
+            Time.timeScale = _prevTimeScale;
+            Time.fixedDeltaTime = _prevFixedDeltaTime;
+        }
+
+        if (pauseAudio)
+        {
+            AudioListener.pause = _prevAudioPaused;
+        }
+
+        // ----- CURSOR -----
         if (showCursorInMenu)
         {
             Cursor.visible = _prevCursorVisible;
@@ -179,3 +212,4 @@ public class MenuPauseController : MonoBehaviour
         return false;
     }
 }
+
