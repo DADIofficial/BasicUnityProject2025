@@ -7,7 +7,7 @@ public class WeaponHitBox : MonoBehaviour
     private void Awake()
     {
         col = GetComponent<Collider>();
-        col.enabled = false; // по умолчанию ВЫКЛ
+        col.enabled = false; 
     }
 
     public void EnableHitbox()

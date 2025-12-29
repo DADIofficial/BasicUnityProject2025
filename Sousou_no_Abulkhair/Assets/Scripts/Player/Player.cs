@@ -1,5 +1,5 @@
 using System;
-using UnityEditor.UIElements;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     public void EquipWeapon(WeaponItem weaponItem)
     {
-        // ������� ������ ������
+       
         if (currentWeaponObject != null)
             Destroy(currentWeaponObject);
 

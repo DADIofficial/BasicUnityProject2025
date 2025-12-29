@@ -39,7 +39,7 @@ public class MenuPauseController : MonoBehaviour
     {
         if (menuCanvasRoot == null)
         {
-            Debug.LogError($"{nameof(MenuPauseController)}: Не назначен menuCanvasRoot.");
+            Debug.LogError($"{nameof(MenuPauseController)}: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ menuCanvasRoot.");
             enabled = false;
             return;
         }
@@ -103,7 +103,7 @@ public class MenuPauseController : MonoBehaviour
         RestoreControls();
         RestoreCanvases();
 
-        // ----- RESUME TIME -----
+        
         if (pauseTime)
         {
             Time.timeScale = _prevTimeScale;
@@ -115,7 +115,7 @@ public class MenuPauseController : MonoBehaviour
             AudioListener.pause = _prevAudioPaused;
         }
 
-        // ----- CURSOR -----
+        
         if (showCursorInMenu)
         {
             Cursor.visible = _prevCursorVisible;

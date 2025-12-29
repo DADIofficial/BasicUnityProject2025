@@ -5,11 +5,11 @@ using UnityEngine.Events;
 public class InteractableObject : MonoBehaviour
 {
     [Header("Prompt canvas (shows on trigger enter)")]
-    [SerializeField] private GameObject promptCanvas; // prefab/объект канвы-подсказки
+    [SerializeField] private GameObject promptCanvas; 
 
     [Header("Actions")]
-    [SerializeField] private UnityEvent onOpen;   // что открыть по F
-    [SerializeField] private UnityEvent onClose;  // что закрыть по F
+    [SerializeField] private UnityEvent onOpen;   
+    [SerializeField] private UnityEvent onClose;  
 
     [Header("Behavior")]
     [SerializeField] private bool hidePromptWhileOpen = true;
@@ -19,7 +19,7 @@ public class InteractableObject : MonoBehaviour
 
     private void Reset()
     {
-        // убедимс€, что коллайдер триггер
+        
         var col = GetComponent<Collider>();
         col.isTrigger = true;
     }
@@ -74,7 +74,7 @@ public class InteractableObject : MonoBehaviour
 
         onClose?.Invoke();
 
-        // если игрок всЄ ещЄ р€дом Ч вернуть подсказку
+       
         RefreshPrompt();
     }
 

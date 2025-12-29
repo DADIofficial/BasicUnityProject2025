@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
+#if UNITY_EDITOR
 using UnityEditor.Rendering.Universal;
+#endif
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,8 +10,8 @@ public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
     [SerializeField] public PlayerInventory playerInventory;
-    public InventoryButton slotPrefab;    // ������ ������ �����
-    public Transform slotParent;          // Parent ��� ������
+    public InventoryButton slotPrefab;    
+    public Transform slotParent;         
     public Vendor vendor;
 
     public ChestRuntime currentChest;
@@ -73,7 +75,7 @@ public class InventoryUI : MonoBehaviour
 
     public virtual void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
-        var slot = ActiveInventory.slots[index];
+        var slot = Player.instance.playerInventory.inventory.slots[index];
         Debug.Log(slot);
         if (slot == null || slot.item == null) return;
 
@@ -109,7 +111,7 @@ public class InventoryUI : MonoBehaviour
                 // Debug.Log("hp/mana/stamina");
                 GameManager.Instance.UsePotion(potion);
 
-                playerInventory.RemoveBySlotIndex(index);
+                playerInventory.RemoveBySlotIndex(index, true);
 
                 RefreshUI();
                 return;
@@ -121,7 +123,7 @@ public class InventoryUI : MonoBehaviour
                 int Id = int.Parse(item.itemId);
                 GameManager.Instance.ChangeMagic(Id);
 
-                playerInventory.RemoveBySlotIndex(index);
+                playerInventory.RemoveBySlotIndex(index, true);
 
                 RefreshUI();
                 return;

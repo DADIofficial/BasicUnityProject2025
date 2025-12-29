@@ -27,8 +27,10 @@ public class PlayerInventory : MonoBehaviour
 
     private Item getItemById(string itemId) {
         foreach (var slot in inventory.slots) {
-            if(slot?.item.itemId == itemId) {
-                return slot?.item;
+            if(slot.item == null)
+                continue;
+            if(slot.item.itemId == itemId) {
+                return slot.item;
             }
         }
         return null;
@@ -37,6 +39,7 @@ public class PlayerInventory : MonoBehaviour
     public void RemoveItemById(string itemId, int amount = 1)
     {
         var item = getItemById(itemId);
+        Debug.Log(item);
         if(item == null)
             return;
 
@@ -74,7 +77,7 @@ public class PlayerInventory : MonoBehaviour
 
     public static event System.Action OnInventoryChanged;
 
-    public void RemoveBySlotIndex(int index)
+    public void RemoveBySlotIndex(int index, bool isBattle = false)
     {
         var item = inventory.slots[index].item;
 
@@ -87,7 +90,8 @@ public class PlayerInventory : MonoBehaviour
         }
 
         inventory.RemoveBySlotIndex(index);
-        QuestController.instance.CheckInventoryForQuests();
+        if(!isBattle)
+            QuestController.instance.CheckInventoryForQuests();
 
         OnInventoryChanged?.Invoke();
     }

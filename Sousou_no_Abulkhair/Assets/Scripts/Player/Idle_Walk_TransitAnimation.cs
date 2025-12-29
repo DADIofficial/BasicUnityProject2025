@@ -13,7 +13,7 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     public MonoBehaviour movementScript;
 
     [Header("SFX")]
-    [SerializeField] private SFXManager sfxManager; // можно оставить пустым — возьмёт из сцены
+    [SerializeField] private SFXManager sfxManager; 
 
     private bool isAttacking = false;
 

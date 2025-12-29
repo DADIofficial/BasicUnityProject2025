@@ -29,7 +29,6 @@ public class InventoryManager : MonoBehaviour
             else CloseInventory();
         }
 
-        // C unchanged
         if (Input.GetKeyDown(KeyCode.C))
         {
             questLogActivated = !questLogActivated;

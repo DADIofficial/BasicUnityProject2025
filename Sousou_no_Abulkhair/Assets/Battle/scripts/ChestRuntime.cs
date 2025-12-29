@@ -32,7 +32,7 @@ public class ChestRuntime : MonoBehaviour
             initialItems.Add(new ChestItemSaveData
             {
                 itemId = slot.item.itemId,
-                count = 1 // 🔑 ВСЕГДА 1, потому что объект уникален
+                count = 1 
             });
         }
 

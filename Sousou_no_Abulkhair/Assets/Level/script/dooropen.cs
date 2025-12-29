@@ -36,7 +36,6 @@ public class dooropen : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        // запускаем задержку закрытия
         closeCoroutine = StartCoroutine(CloseWithDelay());
     }
 

@@ -4,7 +4,7 @@ public class MenuResumeButton : MonoBehaviour
 {
     [SerializeField] private MenuPauseController menuController;
 
-    // Вызывай этот метод в Button -> OnClick()
+    
     public void ReturnToGame()
     {
         if (menuController == null)
@@ -13,6 +13,6 @@ public class MenuResumeButton : MonoBehaviour
         if (menuController != null)
             menuController.CloseMenu();
         else
-            Debug.LogWarning("MenuReturnButton: Не найден MenuPauseController на сцене.");
+            Debug.LogWarning("MenuReturnButton: пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ MenuPauseController пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.");
     }
 }

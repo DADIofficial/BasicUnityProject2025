@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 3
   itemName: KeyForFirstDoor
   price: 0
-  icon: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 7e280ef43241225418f4ad337f4ee0cc, type: 3}
   description: Key to open first door
   itemType: 0
   keyId: 194851e8-6d09-42f1-809d-102f058d57c3

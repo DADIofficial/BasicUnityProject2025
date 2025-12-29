@@ -22,7 +22,7 @@ public class RewardsController : MonoBehaviour
             return false;
         }
 
-        // 1. Считаем, сколько слотов нужно под предметы
+    
         int requiredSlots = 0;
 
         foreach (var reward in quest.questRewards)
@@ -33,14 +33,14 @@ public class RewardsController : MonoBehaviour
             }
         }
 
-        // 2. Проверяем, хватает ли места
+       
         if (inventory.GetAmountOfFreeSlots() < requiredSlots)
         {
             Debug.Log("RewardsController: Not enough inventory space. Reward cancelled.");
             return false;
         }
 
-        // 3. Если места хватает — выдаём ВСЁ
+        
         foreach (var reward in quest.questRewards)
         {
             switch (reward.type)
@@ -54,7 +54,7 @@ public class RewardsController : MonoBehaviour
                     break;
 
                 case RewardType.Custom:
-                    // кастомные награды
+                    
                     break;
             }
         }

@@ -29,7 +29,7 @@ public class GojoSatoru : MonoBehaviour
     {
         storyText.text = "";
 
-        // Полное затемнение
+       
        
 
         Color fadeColor = fadeImage.color;
@@ -37,19 +37,19 @@ public class GojoSatoru : MonoBehaviour
         fadeImage.color = fadeColor;
 
         yield return StartCoroutine(FadeToBlack());
-        // Постепенно добавляем текст + затемняем экран
+        
         foreach (string line in storyLines)
         {
             storyText.text += line + "\n";
             yield return new WaitForSeconds(lineDelay);
         }
 
-        // Таймер
+        
         float timer = timerDuration;
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-            //timerText.text = $"20:31 Прибыл Годжо Сатору";
+            
             yield return null;
         }
 

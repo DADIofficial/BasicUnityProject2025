@@ -14,7 +14,7 @@ public class QuitGame : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        // В билде закрывает приложение
+        
         Application.Quit();
 #endif
     }
@@ -28,6 +28,12 @@ public class QuitGame : MonoBehaviour
         }
 
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void ReturnSet(){
+    Time.timeScale = 1f;               
+    Cursor.visible = true;              
+    Cursor.lockState = CursorLockMode.None;
     }
 }
 

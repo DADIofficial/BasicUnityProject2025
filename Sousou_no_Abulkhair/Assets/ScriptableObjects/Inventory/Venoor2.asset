@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56264311cc387cc4cbbc0ccf7de5369e, type: 3}
-  m_Name: Inventory
+  m_Name: Venoor2
   m_EditorClassIdentifier: 
   width: 2
   height: 5
   inventoryType: 0
   slots:
-  - item: {fileID: 11400000, guid: f8b5ddab7675f0b4d8ecdec7e79172bb, type: 2}
+  - item: {fileID: 11400000, guid: dd2ef8dc131cf2c4fb9925347d1efd19, type: 2}
     count: 1
   - item: {fileID: 0}
     count: 0
@@ -24,8 +24,8 @@ MonoBehaviour:
     count: 0
   - item: {fileID: 0}
     count: 0
-  - item: {fileID: 11400000, guid: 4788dd8c581f9fe4aacb03b53834eb92, type: 2}
-    count: 1
+  - item: {fileID: 0}
+    count: 0
   - item: {fileID: 0}
     count: 0
   - item: {fileID: 0}

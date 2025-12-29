@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _maxSlideIterations = 2;
 
     [Header("SFX")]
-    [SerializeField] private SFXManager _sfxManager; // берем из сцены есЫли не назначен
-    [SerializeField] private float stepDistance = 1.6f; // через сколько метров проигрывать "шаг"
-    [SerializeField] private float minMoveSpeedForSteps = 0.05f; // чтобы не срабатывало от микродвижений
+    [SerializeField] private SFXManager _sfxManager; 
+    [SerializeField] private float stepDistance = 1.6f; 
+    [SerializeField] private float minMoveSpeedForSteps = 0.05f; 
 
     [Header("Ground check")]
     [SerializeField] private float groundCheckDistance = 0.2f;
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         _playerInputController = GetComponent<PlayerInputController>();
         _capsule = GetComponent<CapsuleCollider>();
         if (!_capsule)
-            Debug.LogWarning("PlayerController: нужен CapsuleCollider для слайда по стенам.");
+            Debug.LogWarning("PlayerController: пїЅпїЅпїЅпїЅпїЅ CapsuleCollider пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.");
 
         if (_sfxManager == null)
             _sfxManager = FindFirstObjectByType<SFXManager>(FindObjectsInactive.Include);
@@ -46,11 +46,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 wishMove = transform.TransformDirection(moveLocal);
 
-        // если нет ввода — считаем, что остановился
+        
         if (wishMove.sqrMagnitude <= 1e-4f)
         {
             _wasMoving = false;
-            _lastStepPos = transform.position; // чтобы при старте не "накапливался" шаг
+            _lastStepPos = transform.position; 
             return;
         }
 
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_sfxManager == null) return;
 
-        // скорость движения в метрах/сек
+        
         float speedNow = finalDelta.magnitude / Mathf.Max(Time.deltaTime, 0.0001f);
         if (speedNow < minMoveSpeedForSteps)
         {
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Только если на земле
+        
         if (!IsGrounded())
         {
             _wasMoving = false;
@@ -99,13 +99,13 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        // простая проверка "под капсулой"
+        
         if (_capsule == null) return true;
 
         Vector3 origin = transform.position + transform.TransformVector(_capsule.center);
         float radius = _capsule.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.z);
 
-        // от центра капсулы вниз
+        
         return Physics.SphereCast(origin, radius * 0.9f, Vector3.down, out _,
             groundCheckDistance, _collisionMask, QueryTriggerInteraction.Ignore);
     }

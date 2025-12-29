@@ -15,18 +15,18 @@ public class GiveQuest : MonoBehaviour
         if (questText != null) questText.text = questGiver.offerText;
     }
 
-    // Вызывается из InteractableObject -> onOpen
+    
     public void OpenQuestUI()
     {
         if (questInfo != null) questInfo.SetActive(true);
 
         UpdateQuestText();
 
-        // если у тебя есть отдельная система
+
         QuestUI.instance.Show(this);
     }
 
-    // Вызывается из InteractableObject -> onClose
+    
     public void CloseQuestUI()
     {
         if (questInfo != null) questInfo.SetActive(false);
@@ -41,7 +41,7 @@ public class GiveQuest : MonoBehaviour
         if (questInfo != null) questInfo.SetActive(false);
         if (questText != null) questText.text = questGiver.inProgressText;
 
-        // Закрыть взаимодействие и вернуть мир
+        
         if (PlayerInteractor.Instance != null)
             PlayerInteractor.Instance.EndInteraction();
     }

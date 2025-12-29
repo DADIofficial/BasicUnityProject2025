@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    // ID врага, с которым начался бой
     public string currentEnemyID;
 
     private void Awake()
@@ -50,18 +49,18 @@ public class GameManager : MonoBehaviour
 
     public void OnChestLooted(int chestIndex)
     {
-        // 1️⃣ помечаем запись в SaveData
+
         var data = saveData.chests.Find(c => c.chestIndex == chestIndex);
         if (data != null)
             data.isActive = false;
 
-        // 2️⃣ освобождаем runtime-сундук
+
         var chest = chests.Find(c => c.chestIndex == chestIndex);
         if (chest != null)
         {
             chest.inventory.Clear();
             chest.RestoreInitialInventory();
-            chest.ReturnToStart(); // IsInUse = false
+            chest.ReturnToStart(); 
         }
     }
 
@@ -77,19 +76,19 @@ public class GameManager : MonoBehaviour
             )
         );
 
-        // 🔁 runtime-сброс всех сундуков
+
         foreach (var chest in chests)
         {
             chest.ReturnToStart();
         }
 
-        // 🔑 чистим логические хвосты
+  
         saveData.chests.RemoveAll(c => !c.isActive);
 
         Debug.Log($"[GameManager] Found {chests.Count} chests in scene");
 
-        RestoreChests();           // восстановление сохранённых
-        SpawnChestFromLastEnemy(); // спавн нового
+        RestoreChests();          
+        SpawnChestFromLastEnemy(); 
     }
 
 

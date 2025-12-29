@@ -21,12 +21,14 @@ public class Door : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        if (!isOpen)
-            return;
-
         CancelCloseDelay();
-        OpenVisual();
+
+        if (isOpen)
+        {
+            OpenVisual();
+        }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -47,16 +49,23 @@ public class Door : MonoBehaviour
         if (inventory == null)
             return false;
 
-        if (!string.IsNullOrEmpty(requiredKeyId) &&
-            !inventory.HasKey(requiredKeyId, out _))
+        if (!string.IsNullOrEmpty(requiredKeyId))
         {
-            return false;
+            if (!inventory.HasKey(requiredKeyId, out InventoryInstance slot))
+                return false;
+
+            int slotIndex = inventory.inventory.slots.IndexOf(slot);
+            if (slotIndex == -1)
+                return false;
+
+            // inventory.RemoveBySlotIndex(slotIndex);
         }
 
         isOpen = true;
         OpenVisual();
         return true;
     }
+
 
 
     private void OpenVisual()

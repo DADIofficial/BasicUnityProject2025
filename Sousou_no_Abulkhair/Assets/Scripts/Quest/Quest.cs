@@ -26,7 +26,7 @@ public class Quest : ScriptableObject
     [System.Serializable]
     public class QuestObjective
     {
-        public string objectiveId;  // enemy, item, trigger, NPC id
+        public string objectiveId;  
         public string description;
         public ObjectiveType type;
         public int requiredAmount;

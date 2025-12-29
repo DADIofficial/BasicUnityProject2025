@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
         Cursor.visible = false;
 
         if (!playerCamera)
-            Debug.LogError("CameraController: не назначен playerCamera");
+            Debug.LogError("CameraController: playerCamera");
 
         _cam = playerCamera ? playerCamera.GetComponent<Camera>() : null;
     }

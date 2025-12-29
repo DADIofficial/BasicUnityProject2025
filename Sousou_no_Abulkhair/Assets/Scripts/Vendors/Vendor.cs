@@ -82,7 +82,7 @@ public class Vendor : MonoBehaviour
 
     public void ClosingShop()
     {
-        // если у тебя пауза/время/курсор управляются PlayerInteractor'ом — закрывай через него
+        
         if (PlayerInteractor.Instance != null && PlayerInteractor.Instance.IsInteracting)
             PlayerInteractor.Instance.EndInteraction();
         else
@@ -136,6 +136,7 @@ public class Vendor : MonoBehaviour
     public void SellItem(int index)
     {
         var item = Player.instance.playerInventory.inventory.slots[index]?.item;
+        Debug.Log(item);
         if (item == null) return;
 
         Player.instance.leaves += (coef * item.price / 100);

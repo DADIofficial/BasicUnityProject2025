@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 1
     requiredAmount: 3
     currentAmount: 0
-  - objectiveId: 3
+  - objectiveId: 5000
     description: Find me
     type: 1
     requiredAmount: 1

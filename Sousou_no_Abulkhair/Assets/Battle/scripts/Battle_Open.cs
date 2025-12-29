@@ -46,7 +46,6 @@ public class Battle_Open : MonoBehaviour
         var save = GameManager.Instance.saveData;
         var playerScript = player.GetComponent<Player>();
 
-        // ✅ только вход в бой
         save.battleEntryEnemyPosition = transform.position;
 
         save.playerPosition = player.position;
@@ -67,7 +66,6 @@ public class Battle_Open : MonoBehaviour
 
         GameManager.Instance.currentEnemyID = enemyWorldID.id;
 
-        // чтобы не триггерилось повторно
         GetComponent<Collider>().enabled = false;
 
         GameManager.Instance.SaveBattleSnapshot(

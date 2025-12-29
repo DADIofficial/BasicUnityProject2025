@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be1f257b01d4ed45b89acb1fd903194, type: 3}
   m_Name: StaminaPotion
   m_EditorClassIdentifier: 
-  itemId: 3
+  itemId: 5000
   itemName: Stamina Potion
   price: 50
   icon: {fileID: 21300000, guid: a0322ccc4ad22864cb66831664efed2e, type: 3}
