@@ -11,6 +11,8 @@ public class Player_battle : MonoBehaviour
     [SerializeField] private CanvasGroup BattleCanva; 
     [SerializeField] private Button magicButton;
 
+    [SerializeField] private LoseVariant death;
+
     public DamageSystem damageSystem;
 
     public Battle_manager battleManager;
@@ -56,6 +58,8 @@ public class Player_battle : MonoBehaviour
 
     private Collider currentWeaponCollider;
 
+    private int AttackVal;
+
 
 
     // [SerializeField] private Collider playerCollider; 
@@ -70,6 +74,8 @@ public class Player_battle : MonoBehaviour
     void Start()
     {
         var save = GameManager.Instance.saveData;
+
+        AttackVal = GameManager.Instance.saveData.enemyAttack;
 
         hp = save.health;
         mana = save.mana;
@@ -123,7 +129,7 @@ public class Player_battle : MonoBehaviour
         parameters.UpdateStamina(Maxstamina, stamina);
 
         Debug.Log(
-            $"[UI INIT]\nHP: {hp}/{MaxHP}\nMana: {mana}/{MaxMana}\nStamina: {stamina}/{Maxstamina}"
+            $"[UI INIT]\nHP: {hp}/{MaxHP}\nMana: {mana}/{MaxMana}\nStamina: {stamina}/{Maxstamina}\nEnemyAttack: {AttackVal}"
         );
     }
 
@@ -226,7 +232,7 @@ public class Player_battle : MonoBehaviour
         transform.rotation = StartRot;  
 
         if (currentWeaponCollider != null)
-            currentWeaponCollider.enabled = false;
+            currentWeaponCollider.enabled = false;  
 
         yield return new WaitForSeconds(2f);
         battleManager.EnemiesAttack();
@@ -280,13 +286,14 @@ public class Player_battle : MonoBehaviour
         {
 
             if (parameters != null){
-                hp -= 5;
+                hp -= AttackVal;
                 hp = Mathf.Clamp(hp, 0, MaxHP);
                 parameters.UpdateHP(MaxHP, hp);
             }
 
             if (hp <=0){
                 Debug.Log("you die");
+                death.Show();
                 
             }
 

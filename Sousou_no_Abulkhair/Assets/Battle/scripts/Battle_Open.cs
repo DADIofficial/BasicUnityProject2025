@@ -8,6 +8,9 @@ public class Battle_Open : MonoBehaviour
     private Transform player;
     private bool triggered;
 
+    public float EnemyHP = 100f;
+    public int EnemyAttack = 5;
+
     private void Awake()
     {
         enemyWorldID = GetComponent<EnemyWorldID>();
@@ -29,8 +32,14 @@ public class Battle_Open : MonoBehaviour
         if (triggered)
             return;
 
-        if (other.gameObject.layer != LayerMask.NameToLayer("PlayerWeapon"))
+        var playerScript1 = Player.instance;
+
+        if (!playerScript1.IsAttacking)
             return;
+
+        if (other != playerScript1.GetCurrentWeaponCollider())
+            return;
+
 
         triggered = true;
 
@@ -48,12 +57,23 @@ public class Battle_Open : MonoBehaviour
         save.mana = playerScript.mana;
         save.stamina = 100;
 
+        save.enemyHP = EnemyHP;
+        save.enemyAttack = EnemyAttack;
+
+
         save.weaponID = int.Parse(playerScript.GetCurrentWeaponID());
+        // save.magicID = int.Parse(playerScript.GetCurrentMagicID());
+
 
         GameManager.Instance.currentEnemyID = enemyWorldID.id;
 
         // чтобы не триггерилось повторно
         GetComponent<Collider>().enabled = false;
+
+        GameManager.Instance.SaveBattleSnapshot(
+            player.GetComponent<PlayerInventory>()
+        );
+
 
         StartCoroutine(LoadBattleScene());
     }

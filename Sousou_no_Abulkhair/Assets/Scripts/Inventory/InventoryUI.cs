@@ -12,7 +12,16 @@ public class InventoryUI : MonoBehaviour
     public Transform slotParent;          // Parent ��� ������
     public Vendor vendor;
 
+    public ChestRuntime currentChest;
+
     private Transform[] waypoints;
+
+    public Inventory ActiveInventory =>
+        vendor != null ? vendor.VendorInventory :
+        currentChest != null ? currentChest.inventory :
+        playerInventory.inventory;
+
+
 
     void Start()
     {
@@ -64,31 +73,26 @@ public class InventoryUI : MonoBehaviour
 
     public virtual void OnSlotClicked(int index, PointerEventData.InputButton button)
     {
-        var slot = inventory.slots[index];
+        var slot = ActiveInventory.slots[index];
         Debug.Log(slot);
         if (slot == null || slot.item == null) return;
-        // Debug.Log("Surprise, Motherfucker! Inventory UI click");
-        /*switch (inventory.inventoryType)
-        {
-            case InventoryType.Player:
-            case InventoryType.Chest:
-                inventory.RemoveBySlotIndex(index);
-                break;
-
-            case InventoryType.Vendor:
-                if (vendor != null)
-                {
-                    vendor.BuyItem(slot.item);
-                }
-                break;
-        }*/
-
 
         if (button == PointerEventData.InputButton.Left)
         {
             if (vendor == null)
             {
                 playerInventory.RemoveBySlotIndex(index);
+
+
+                if (currentChest != null &&
+                    currentChest.inventory.IsEmpty())
+                {
+                    GameManager.Instance.OnChestLooted(
+                        currentChest.chestIndex
+                    );
+
+                    currentChest = null;
+                }
             }
             else
             {
@@ -98,14 +102,14 @@ public class InventoryUI : MonoBehaviour
         else if (button == PointerEventData.InputButton.Right)
         {
             
-            var item = playerInventory.inventory.slots[index]?.item;
+            var item = ActiveInventory.slots[index]?.item;
 
             if (item is PotionItem potion)
             {
                 // Debug.Log("hp/mana/stamina");
                 GameManager.Instance.UsePotion(potion);
 
-                inventory.RemoveBySlotIndex(index);
+                playerInventory.RemoveBySlotIndex(index);
 
                 RefreshUI();
                 return;
@@ -117,7 +121,7 @@ public class InventoryUI : MonoBehaviour
                 int Id = int.Parse(item.itemId);
                 GameManager.Instance.ChangeMagic(Id);
 
-                inventory.RemoveBySlotIndex(index);
+                playerInventory.RemoveBySlotIndex(index);
 
                 RefreshUI();
                 return;

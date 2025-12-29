@@ -29,9 +29,13 @@ public class Battle_Enemy : MonoBehaviour
     [SerializeField] private Collider enemyCollider; 
 
 
+
+
     void Start()
     {
-        MaxHP = Health;
+        
+        MaxHP = GameManager.Instance.saveData.enemyHP;
+        
 
         enemyCollider.isTrigger = true;
         StartPos = transform.position;

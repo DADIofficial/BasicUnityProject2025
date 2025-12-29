@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     
     private List<ChestRuntime> chests = new();
 
+    private BattleSnapshot battleSnapshot;
+
+
 
     // ID врага, с которым начался бой
     public string currentEnemyID;
@@ -45,30 +48,51 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void OnChestLooted(int chestIndex)
     {
-        if (scene.name == "MainLevel")
+        // 1️⃣ помечаем запись в SaveData
+        var data = saveData.chests.Find(c => c.chestIndex == chestIndex);
+        if (data != null)
+            data.isActive = false;
+
+        // 2️⃣ освобождаем runtime-сундук
+        var chest = chests.Find(c => c.chestIndex == chestIndex);
+        if (chest != null)
         {
-            chests = new List<ChestRuntime>(
-                Object.FindObjectsByType<ChestRuntime>(
-                    FindObjectsInactive.Include,
-                    FindObjectsSortMode.None
-                )
-            );
-
-            foreach (var chest in chests)
-            {
-                chest.ReturnToStart(); // 🔥 СБРОС
-            }
-
-
-
-            Debug.Log($"[GameManager] Found {chests.Count} chests in scene");
-
-            RestoreChests();              // 1️⃣ сначала восстановление
-            SpawnChestFromLastEnemy();    // 2️⃣ потом спавн нового
+            chest.inventory.Clear();
+            chest.RestoreInitialInventory();
+            chest.ReturnToStart(); // IsInUse = false
         }
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainLevel")
+            return;
+
+        chests = new List<ChestRuntime>(
+            Object.FindObjectsByType<ChestRuntime>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None
+            )
+        );
+
+        // 🔁 runtime-сброс всех сундуков
+        foreach (var chest in chests)
+        {
+            chest.ReturnToStart();
+        }
+
+        // 🔑 чистим логические хвосты
+        saveData.chests.RemoveAll(c => !c.isActive);
+
+        Debug.Log($"[GameManager] Found {chests.Count} chests in scene");
+
+        RestoreChests();           // восстановление сохранённых
+        SpawnChestFromLastEnemy(); // спавн нового
+    }
+
+
 
 
 
@@ -154,34 +178,72 @@ public class GameManager : MonoBehaviour
 
 
 
-    // public void RestoreChest(ChestRuntime chest, ChestSaveData data)
-    // {
-    //     chest.transform.position = data.position;
-    //     chest.gameObject.SetActive(data.isActive);
 
-    //     chest.inventory.Clear(); // твой метод очистки
 
-    //     foreach (var itemData in data.items)
-    //     {
-    //         Item item = ItemDB.Get(itemData.itemId);
-    //         chest.inventory.AddItem(new InventoryInstance(item, itemData.count));
-    //     }
-    // }
+
+    public void SpawnChestFromLastEnemy()
+    {
+        var save = saveData;
+        Debug.Log($"[SpawnChest] id={save.lastKilledEnemyId} pos={save.lastKilledEnemyPosition}");
+
+        if (string.IsNullOrEmpty(save.lastKilledEnemyId))
+            return;
+
+        if (save.lastKilledEnemyPosition == Vector3.zero)
+            return;
+
+        // проверка: сундук уже есть
+        if (save.chests.Exists(c =>
+            c.isActive &&
+            Vector3.Distance(c.position, save.lastKilledEnemyPosition) < 0.1f))
+        {
+            save.lastKilledEnemyId = null;
+            save.lastKilledEnemyPosition = Vector3.zero;
+            return;
+        }
+
+        var freeChests = chests.FindAll(c => !c.IsInUse);
+        if (freeChests.Count == 0)
+        {
+            Debug.LogWarning("[SpawnChest] No free chest available");
+            return;
+        }
+
+        var freeChest = freeChests[Random.Range(0, freeChests.Count)];
+
+        // 🔑 восстановили стартовый лут
+        freeChest.RestoreInitialInventory();
+        freeChest.TeleportTo(save.lastKilledEnemyPosition);
+
+        // 🔑 сохранили в SaveData
+        var chestSave = new ChestSaveData
+        {
+            chestIndex = freeChest.chestIndex,
+            position = save.lastKilledEnemyPosition,
+            isActive = true
+        };
+
+        foreach (var pair in freeChest.inventory.GetItemCounts())
+        {
+            chestSave.items.Add(new ChestItemSaveData
+            {
+                itemId = pair.Key,
+                count = pair.Value
+            });
+        }
+
+        save.chests.Add(chestSave);
+
+        save.lastKilledEnemyId = null;
+        save.lastKilledEnemyPosition = Vector3.zero;
+    }
 
     public void RestoreChests()
     {
         foreach (var data in saveData.chests)
         {
-            // сундук уже залутан — не восстанавливаем
             if (!data.isActive)
                 continue;
-
-            // защита от мусорных данных
-            if (data.position == Vector3.zero)
-            {
-                Debug.LogWarning("[RestoreChests] Skipped chest with ZERO position");
-                continue;
-            }
 
             var chest = chests.Find(c => c.chestIndex == data.chestIndex);
             if (chest == null)
@@ -194,75 +256,75 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void OnChestLooted(int chestIndex)
+    public void SaveBattleSnapshot(PlayerInventory playerInventory)
     {
-        // помечаем в сейве как неактивный
-        var data = saveData.chests.Find(c => c.chestIndex == chestIndex);
-        if (data != null)
-            data.isActive = false;
+        var inv = playerInventory.inventory;
 
-        // освобождаем сундук в пуле
-        var chest = chests.Find(c => c.chestIndex == chestIndex);
-        if (chest != null)
-            chest.ReturnToStart();
+        battleSnapshot = new BattleSnapshot
+        {
+            health = saveData.health,
+            mana = saveData.mana,
+            stamina = saveData.stamina,
+
+            weaponID = saveData.weaponID,
+            magicID = saveData.magicID,
+
+            enemyHP = saveData.enemyHP,
+            enemyAttack = saveData.enemyAttack,
+
+            inventorySlots = new List<InventorySlotSave>()
+        };
+
+        foreach (var slot in inv.slots)
+        {
+            if (slot == null || slot.item == null)
+            {
+                battleSnapshot.inventorySlots.Add(null);
+                continue;
+            }
+
+            battleSnapshot.inventorySlots.Add(new InventorySlotSave
+            {
+                itemId = slot.item.itemId
+            });
+        }
+
+        Debug.Log("[BattleSnapshot] Saved inventory slots = " + battleSnapshot.inventorySlots.Count);
     }
 
 
-
-    public void SpawnChestFromLastEnemy()
+    public void RestoreBattleSnapshot(PlayerInventory playerInventory)
     {
-        var save = saveData;
-        Debug.Log($"[SpawnChest] id={save.lastKilledEnemyId} pos={save.lastKilledEnemyPosition}");
-
-
-        // нет убитого врага — нечего спавнить
-        if (string.IsNullOrEmpty(save.lastKilledEnemyId))
-            return;
-
-        // позиция некорректна — сбрасываем
-        if (save.lastKilledEnemyPosition == Vector3.zero)
+        if (battleSnapshot == null)
         {
-            Debug.LogError("[SpawnChest] lastKilledEnemyPosition is ZERO");
-            save.lastKilledEnemyId = null;
+            Debug.LogError("[BattleSnapshot] No snapshot");
             return;
         }
 
-        // уже есть активный сундук на этой позиции
-        if (save.chests.Exists(c =>
-            c.isActive &&
-            Vector3.Distance(c.position, save.lastKilledEnemyPosition) < 0.1f))
+        saveData.health = battleSnapshot.health;
+        saveData.mana = battleSnapshot.mana;
+        saveData.stamina = battleSnapshot.stamina;
+
+        saveData.weaponID = battleSnapshot.weaponID;
+        saveData.magicID = battleSnapshot.magicID;
+
+        var inv = playerInventory.inventory;
+        inv.Clear();
+
+        for (int i = 0; i < battleSnapshot.inventorySlots.Count; i++)
         {
-            save.lastKilledEnemyId = null;
-            save.lastKilledEnemyPosition = Vector3.zero;
-            return;
+            var slotSave = battleSnapshot.inventorySlots[i];
+            if (slotSave == null)
+                continue;
+
+            Item item = ItemDB.Get(slotSave.itemId);
+            inv.slots[i] = new InventoryInstance(item, 1);
         }
 
-        // ищем свободный сундук в пуле
-        var freeChests = chests.FindAll(c => c != null && !c.IsInUse);
-
-        if (freeChests.Count == 0)
-        {
-            Debug.LogWarning("[SpawnChest] No free chest available");
-            return;
-        }
-
-        // спавним сундук
-        var chest = freeChests[Random.Range(0, freeChests.Count)];
-        chest.TeleportTo(save.lastKilledEnemyPosition);
-
-        // сохраняем в сейв
-        save.chests.Add(new ChestSaveData
-        {
-            chestIndex = chest.chestIndex,
-            position = save.lastKilledEnemyPosition,
-            isActive = true,
-            items = new List<ChestItemSaveData>()
-        });
-
-        // 🔑 ОБЯЗАТЕЛЬНО чистим
-        save.lastKilledEnemyId = null;
-        save.lastKilledEnemyPosition = Vector3.zero;
+        Debug.Log("[BattleSnapshot] Restored inventory");
     }
+
+
 
 
 

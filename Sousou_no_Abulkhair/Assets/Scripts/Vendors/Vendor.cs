@@ -14,9 +14,21 @@ public class Vendor : MonoBehaviour
     [SerializeField] private VendorUI vendorUI;
     [SerializeField] private PlayerInventory vendorInventory;
 
+    public Inventory VendorInventory => vendorInventory.inventory;
+
+
     public int coef;
 
     private bool menuActivated = false;
+
+    public enum VendorMode
+    {
+        Vendor,
+        Chest
+    }
+
+    public VendorMode mode;
+
 
     private void Start()
     {
@@ -35,6 +47,12 @@ public class Vendor : MonoBehaviour
             vendorUI.vendor = this;
             vendorUI.RefreshUI();
             OpenShop();
+
+            if (mode == VendorMode.Chest)
+            {
+                var chest = GetComponent<ChestRuntime>();
+                inventoryUI.currentChest = chest;
+            }
         }
     }
 
@@ -47,6 +65,14 @@ public class Vendor : MonoBehaviour
             vendorUI.inventory = null;
             vendorUI.vendor = null;
             CloseShop();
+
+            if (mode == VendorMode.Chest)
+            {
+                if (inventoryUI.currentChest == GetComponent<ChestRuntime>())
+                    inventoryUI.currentChest = null;
+            }
+
+            
         }
     }
 
@@ -66,6 +92,27 @@ public class Vendor : MonoBehaviour
         inventoryMenu.SetActive(false);
     }
 
+    public void ClosingShop()
+    {
+        menuActivated = false;
+        Cursor.visible = false;
+        shopMenu.SetActive(false);
+        inventoryMenu.SetActive(false);
+
+        inventoryUI.vendor = null;
+        vendorUI.playerInventory = null;
+        vendorUI.inventory = null;
+        vendorUI.vendor = null;
+
+        if (mode == VendorMode.Chest)
+            {
+                if (inventoryUI.currentChest == GetComponent<ChestRuntime>())
+                    inventoryUI.currentChest = null;
+            }
+
+        CloseShop();
+    }
+
     public bool BuyItem(Item item, int index)
     {
         if (item == null) return false;
@@ -78,8 +125,24 @@ public class Vendor : MonoBehaviour
             {
                 Player.instance.leaves -= (coef * item.price);
                 vendorInventory.RemoveBySlotIndex(index);
+
+
+                // 🔑 ТОЛЬКО если сейчас открыт сундук
+                if (inventoryUI.currentChest != null &&
+                    inventoryUI.currentChest.inventory.IsEmpty())
+                {
+                    GameManager.Instance.OnChestLooted(
+                        inventoryUI.currentChest.chestIndex
+                    );
+
+                    inventoryUI.currentChest = null; // защита
+                }
+
+
+
                 UpdateCurrencyText();
                 Debug.Log($"{item.itemName}");
+
                 return true;
             }
             else

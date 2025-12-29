@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3547796882371830856}
   - component: {fileID: 9031878493526565286}
+  - component: {fileID: 399123123817611281}
   m_Layer: 6
   m_Name: EnchSword
   m_TagString: PlayerWeapon
@@ -56,6 +57,18 @@ CapsuleCollider:
   m_Height: 6.61
   m_Direction: 1
   m_Center: {x: 0, y: 2.48, z: 0.18}
+--- !u!114 &399123123817611281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868962833460092971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb3f8ec2ecff2c418dd53cfc65574bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8183109616456839247
 PrefabInstance:
   m_ObjectHideFlags: 0

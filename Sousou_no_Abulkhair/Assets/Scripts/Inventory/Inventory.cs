@@ -160,5 +160,17 @@ public class Inventory : ScriptableObject
         }
     }
 
+    public bool IsEmpty()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.count > 0)
+                return false;
+        }
+        return true;
+    }
+
+
+
 
 }

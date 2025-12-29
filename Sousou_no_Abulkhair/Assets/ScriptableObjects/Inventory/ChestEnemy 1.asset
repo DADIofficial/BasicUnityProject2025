@@ -16,12 +16,12 @@ MonoBehaviour:
   height: 5
   inventoryType: 2
   slots:
-  - item: {fileID: 0}
-    count: 0
-  - item: {fileID: 0}
-    count: 0
-  - item: {fileID: 0}
-    count: 0
+  - item: {fileID: 11400000, guid: c4d74830540afef4788d324cd74213a6, type: 2}
+    count: 1
+  - item: {fileID: 11400000, guid: 0466d29a5e1236d46888899501ce4c1b, type: 2}
+    count: 1
+  - item: {fileID: 11400000, guid: 7e458ab611f6bc94a8bce1f41487bce8, type: 2}
+    count: 1
   - item: {fileID: 0}
     count: 0
   - item: {fileID: 0}

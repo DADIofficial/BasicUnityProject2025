@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     public Transform weaponSocket;
     public WeaponItem currentWeaponItem;
 
+    public bool IsAttacking { get; private set; }
+
+
     private GameObject currentWeaponObject;
 
     private void Awake()
@@ -76,25 +79,16 @@ public class Player : MonoBehaviour
         return -1;
     }
 
-    // public void UseItem(Item item)
-    // {
-    //     if(item.itemType == ItemType.Potion)
-    //     {
-    //         PotionItem potion = (PotionItem)item;
-    //         if(potion.potionType == PotionType.Health)
-    //         {
-    //             health += potion.restoreAmount;
-    //             Debug.Log("Health: " + health);
-    //         } else if(potion.potionType == PotionType.Mana)
-    //         {
-    //             mana += potion.restoreAmount;
-    //         } else if(potion.potionType == PotionType.Stamina)
-    //         {
-    //             stamina += potion.restoreAmount;
-    //         }
-    //         playerInventory.Remove(item, 1);
-    //     }
-    // }
+    public void StartAttack()
+    {
+        IsAttacking = true;
+    }
+
+    public void EndAttack()
+    {
+        IsAttacking = false;
+    }
+
 
     public Collider GetCurrentWeaponCollider()
     {
@@ -111,6 +105,26 @@ public class Player : MonoBehaviour
 
         return currentWeaponItem.itemId;
     }
+
+
+    public void EnableWeaponHitbox()
+    {
+        var hitbox = GetCurrentWeaponCollider()
+            ?.GetComponent<WeaponHitBox>();
+
+        if (hitbox != null)
+            hitbox.EnableHitbox();
+    }
+
+    public void DisableWeaponHitbox()
+    {
+        var hitbox = GetCurrentWeaponCollider()
+            ?.GetComponent<WeaponHitBox>();
+
+        if (hitbox != null)
+            hitbox.DisableHitbox();
+    }
+
 
 
 

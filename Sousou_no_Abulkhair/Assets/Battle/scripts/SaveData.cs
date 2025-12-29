@@ -22,25 +22,26 @@ public class SaveData
     public Vector3 battleEntryEnemyPosition;
     public Vector3 lastKilledEnemyPosition;
 
-
     public List<ChestSaveData> chests = new();
-}
 
+    public float enemyHP;
+    public int enemyAttack;
+    
+}
 
 [System.Serializable]
 public class ChestSaveData
 {
-    public int chestIndex;                 // ID сундука в сцене
+    public int chestIndex;
     public Vector3 position;
     public bool isActive;
-
     public List<ChestItemSaveData> items = new();
 }
 
 [System.Serializable]
 public class ChestItemSaveData
 {
-    public string itemId;   // НЕ InstanceID
+    public string itemId;
     public int count;
 }
 

@@ -3,8 +3,7 @@ using System.Collections;
 
 public class Idle_Walk_TransitAnimation : MonoBehaviour
 {
-    [SerializeField] 
-    private Animator anim;
+    [SerializeField] private Animator anim;
 
     [Header("Attack timings")]
     public float attackDelay = 0.1f;
@@ -13,9 +12,6 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     [Header("Movement")]
     public MonoBehaviour movementScript;
 
-
-    [Header("Weapon")]
-    private Collider currentWeaponCollider;
     private bool isAttacking = false;
 
     void Start()
@@ -28,36 +24,39 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
-
             StartCoroutine(AttackRoutine());
         }
     }
 
     IEnumerator AttackRoutine()
     {
-        // 🔥 БЕРЁМ АКТУАЛЬНЫЙ КОЛЛАЙДЕР ИЗ Player
-        currentWeaponCollider = Player.instance.GetCurrentWeaponCollider();
-
-        if (currentWeaponCollider == null)
-            yield break;
-
-        currentWeaponCollider.enabled = false;
-
         isAttacking = true;
 
+        var player = Player.instance;
+        if (player == null)
+            yield break;
+
+        // 🔒 блокируем движение
         if (movementScript != null)
             movementScript.enabled = false;
 
+        // ⏳ задержка перед ударом
         yield return new WaitForSeconds(attackDelay);
 
-        currentWeaponCollider.enabled = true;
+        // ⚔️ НАЧАЛО АТАКИ
+        player.StartAttack();
+        player.EnableWeaponHitbox();
         anim.SetBool("IsAttacking", true);
 
+        // 🩸 окно удара
         yield return new WaitForSeconds(attackDuration);
 
+        // ❌ КОНЕЦ АТАКИ
         anim.SetBool("IsAttacking", false);
-        currentWeaponCollider.enabled = false;
+        player.DisableWeaponHitbox();
+        player.EndAttack();
 
+        // 🔓 возвращаем движение
         if (movementScript != null)
             movementScript.enabled = true;
 
