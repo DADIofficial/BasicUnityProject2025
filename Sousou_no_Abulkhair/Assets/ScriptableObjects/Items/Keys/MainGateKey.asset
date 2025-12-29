@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 502
   itemName: Main Gate Key
   price: 1000000000
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f8d5c31699dabc9418ee58047b2827cd, type: 3}
   description: Key to Main gate
   itemType: 0
   keyId: 1b7ead45-cb14-43d4-90b4-8362ecd1a2e8

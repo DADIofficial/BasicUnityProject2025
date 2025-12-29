@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 501
   itemName: Key to Boss Room
   price: 1000000
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3b71a30b5a5172246a779036480e4ec6, type: 3}
   description: Key to Boss Room
   itemType: 0
   keyId: 24ddf8c9-d926-4fa4-8988-1ec2b871c8e1

@@ -25,8 +25,28 @@ public class PlayerInventory : MonoBehaviour
         return ans;
     }
 
+    private Item getItemById(string itemId) {
+        foreach (var slot in inventory.slots) {
+            if(slot?.item.itemId == itemId) {
+                return slot?.item;
+            }
+        }
+        return null;
+    }
+
     public void RemoveItemById(string itemId, int amount = 1)
     {
+        var item = getItemById(itemId);
+        if(item == null)
+            return;
+
+        if (item is WeaponItem weaponItem)
+        {
+            if (Player.instance.currentWeaponItem == weaponItem)
+            {
+                Player.instance.ChangeWeapon(null);
+            }
+        }
         inventory.RemoveItemById(itemId, amount);
         QuestController.instance.CheckInventoryForQuests();
         inventoryUI.RefreshUI();

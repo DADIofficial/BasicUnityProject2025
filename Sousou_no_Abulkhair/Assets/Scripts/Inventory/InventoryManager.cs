@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject QuestLogMenu;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private Inventory inventory;
+    [SerializeField] private PlayerInventory playerInventory;
 
     private bool menuActivated = false;
     private bool questLogActivated = false;

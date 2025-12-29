@@ -11,6 +11,7 @@ public class QuestController : MonoBehaviour
     // public Quest testQuest;
     public List<QuestProgress> activateQuests = new();
     [SerializeField] private InventoryManager inventory;
+    [SerializeField] private PlayerInventory playerInventory;
     private QuestUI questUI;
 
     public List<string> handinQuestIDs = new();
@@ -87,7 +88,7 @@ public class QuestController : MonoBehaviour
         
         foreach(var itemRequirement in requiredItems)
         {
-            inventory.RemoveItemById(itemRequirement.Key.ToString(), itemRequirement.Value);
+            playerInventory.RemoveItemById(itemRequirement.Key.ToString(), itemRequirement.Value);
         }
 
         return true;
