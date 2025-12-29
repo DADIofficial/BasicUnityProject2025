@@ -9,6 +9,12 @@ public class dooropen : MonoBehaviour
 
     private bool open;
     private Coroutine closeCoroutine;
+    private Collider triggerCol;
+
+    private void Awake()
+    {
+        triggerCol = GetComponent<Collider>();
+    }
 
     void Update()
     {
@@ -19,10 +25,19 @@ public class dooropen : MonoBehaviour
             Quaternion.Lerp(doorPivot.localRotation, targetRot, Time.deltaTime * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void SetInitialState(bool opened)
     {
-        if (!other.CompareTag("Player")) return;
+        open = opened;
 
+        // сразу ставим нужный поворот, без анимации
+        float angle = open ? openAngle : 0f;
+        doorPivot.localRotation = Quaternion.Euler(0, 0, angle);
+    }
+
+
+    // 🔓 Вызывается ТОЛЬКО из Door
+    public void Open()
+    {
         if (closeCoroutine != null)
         {
             StopCoroutine(closeCoroutine);
@@ -32,11 +47,34 @@ public class dooropen : MonoBehaviour
         open = true;
     }
 
+    // 🔒 Вызывается ТОЛЬКО из Door
+    public void Close()
+    {
+        open = false;
+    }
+
+    // 🔑 Включаем / выключаем триггер
+    public void SetTriggerActive(bool active)
+    {
+        if (triggerCol != null)
+            triggerCol.enabled = active;
+    }
+
+    // ⚠️ Эти методы теперь просто поддержка,
+    // они не решают, можно ли открываться
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player"))
+            return;
+
+        // open = true;
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player"))
+            return;
 
-        // запускаем задержку закрытия
         closeCoroutine = StartCoroutine(CloseWithDelay());
     }
 

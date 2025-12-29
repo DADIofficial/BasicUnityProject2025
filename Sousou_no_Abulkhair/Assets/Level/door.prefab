@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7834355057842889996}
   - component: {fileID: 3433322788843194413}
   - component: {fileID: 2175755569181871489}
-  - component: {fileID: 2669338650280778256}
   - component: {fileID: 226524414961014497}
   m_Layer: 0
   m_Name: door
@@ -137,21 +136,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.02, z: 0.03}
   m_Center: {x: -0.03164303, y: 0, z: 0.015}
---- !u!114 &2669338650280778256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837903508551102878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d2e9ae570b32be41835f7093eff6226, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorPivot: {fileID: 1352897986511719931}
-  openAngle: 90
-  speed: 2
 --- !u!114 &226524414961014497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,9 +148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f32028772f7eb4eb025113920627e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpen: 1
   requiredKeyId: 
-  isOpen: 0
-  animator: {fileID: 0}
+  doorPivot: {fileID: 1352897986511719931}
+  openAngle: -90
+  speed: 2
+  triggerCollider: {fileID: 0}
 --- !u!1 &3010043924521484050
 GameObject:
   m_ObjectHideFlags: 0
