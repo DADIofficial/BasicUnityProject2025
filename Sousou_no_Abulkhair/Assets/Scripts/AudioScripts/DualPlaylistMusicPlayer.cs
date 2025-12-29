@@ -5,8 +5,20 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class DualPlaylistMusicPlayer : MonoBehaviour
 {
-    public enum PlaylistId { First, Second }
+    // ВАЖНО: Third добавлен в конец, чтобы не сломать уже сохранённые значения в сценах/префабах
+    public enum PlaylistId { First, Second, Third }
 
+    [System.Serializable]
+    public class ScenePlaylistRule
+    {
+        [Tooltip("Имя сцены (как в Build Settings). Регистр важен.")]
+        public string sceneName;
+
+        public PlaylistId playlist = PlaylistId.First;
+
+        [Tooltip("Перезапускать трек/плейлист при входе в эту сцену даже если плейлист уже активен.")]
+        public bool restartEvenIfSame = false;
+    }
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -14,13 +26,20 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
     [Header("Playlists (WAV -> AudioClip)")]
     [SerializeField] private AudioClip[] playlistFirst;
     [SerializeField] private AudioClip[] playlistSecond;
+    [SerializeField] private AudioClip[] playlistThird;
+
+    [Header("Scene -> Playlist rules")]
+    [Tooltip("Если сцена есть в списке — включаем указанный плейлист. Если нет — ничего не меняем (или применяем default ниже, если включено).")]
+    [SerializeField] private ScenePlaylistRule[] sceneRules;
+
+    [SerializeField] private bool useDefaultPlaylistWhenNoRule = false;
+    [SerializeField] private PlaylistId defaultPlaylist = PlaylistId.First;
 
     [Header("State")]
     [SerializeField] private PlaylistId activePlaylist = PlaylistId.First;
 
     [Header("Behaviour")]
     [SerializeField] private bool persistBetweenScenes = true;
-    [SerializeField] private bool autoSwitchPlaylistOnSceneLoad = true;
     [SerializeField] private bool avoidImmediateRepeat = true;
 
     private const string PREF_KEY = "MUSIC_VOLUME";
@@ -32,7 +51,6 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 
     private void Awake()
     {
-
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
@@ -54,6 +72,9 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 
         if (persistBetweenScenes)
             DontDestroyOnLoad(gameObject);
+
+        if (PlayerPrefs.HasKey(PREF_KEY))
+            audioSource.volume = Mathf.Clamp01(PlayerPrefs.GetFloat(PREF_KEY, audioSource.volume));
     }
 
     private void OnEnable()
@@ -68,14 +89,59 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 
     private void Start()
     {
+        ApplyPlaylistForScene(SceneManager.GetActiveScene(), allowRestartEvenIfSame: true);
         RestartFromActivePlaylist();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!autoSwitchPlaylistOnSceneLoad) return;
+        ApplyPlaylistForScene(scene, allowRestartEvenIfSame: false);
+    }
 
-        SwitchPlaylistAndRestart();
+    private void ApplyPlaylistForScene(Scene scene, bool allowRestartEvenIfSame)
+    {
+        bool foundRule = TryGetRuleForScene(scene.name, out var rule);
+
+        if (!foundRule)
+        {
+            if (!useDefaultPlaylistWhenNoRule) return;
+
+            if (activePlaylist != defaultPlaylist)
+                SetPlaylist(defaultPlaylist, restart: true);
+
+            return;
+        }
+
+        bool same = (activePlaylist == rule.playlist);
+        bool shouldRestart = (!same) || (rule.restartEvenIfSame && allowRestartEvenIfSame);
+
+        if (!same)
+        {
+            activePlaylist = rule.playlist;
+            _lastIndex = -1;
+        }
+
+        if (shouldRestart)
+            RestartFromActivePlaylist();
+    }
+
+    private bool TryGetRuleForScene(string sceneName, out ScenePlaylistRule rule)
+    {
+        if (sceneRules != null)
+        {
+            for (int i = 0; i < sceneRules.Length; i++)
+            {
+                var r = sceneRules[i];
+                if (r != null && !string.IsNullOrWhiteSpace(r.sceneName) && r.sceneName == sceneName)
+                {
+                    rule = r;
+                    return true;
+                }
+            }
+        }
+
+        rule = null;
+        return false;
     }
 
     public void SetPlaylist(PlaylistId playlist, bool restart = true)
@@ -85,13 +151,6 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 
         if (restart)
             RestartFromActivePlaylist();
-    }
-
-    public void SwitchPlaylistAndRestart()
-    {
-        activePlaylist = (activePlaylist == PlaylistId.First) ? PlaylistId.Second : PlaylistId.First;
-        _lastIndex = -1;
-        RestartFromActivePlaylist();
     }
 
     public void RestartFromActivePlaylist()
@@ -112,7 +171,6 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
         }
         audioSource.Stop();
     }
-
 
     private IEnumerator PlayLoop()
     {
@@ -147,7 +205,13 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
 
     private AudioClip[] GetActiveList()
     {
-        return (activePlaylist == PlaylistId.First) ? playlistFirst : playlistSecond;
+        return activePlaylist switch
+        {
+            PlaylistId.First => playlistFirst,
+            PlaylistId.Second => playlistSecond,
+            PlaylistId.Third => playlistThird,
+            _ => playlistFirst
+        };
     }
 
     private int PickIndex(int length)
@@ -173,4 +237,3 @@ public class DualPlaylistMusicPlayer : MonoBehaviour
         PlayerPrefs.Save();
     }
 }
-
