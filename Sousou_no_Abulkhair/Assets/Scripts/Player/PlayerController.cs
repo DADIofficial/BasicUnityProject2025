@@ -3,14 +3,25 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
+
     [Header("Collision/Slide")]
     [SerializeField] private float _wallStopDistance = 0.06f;
     [SerializeField] private LayerMask _collisionMask;
     [SerializeField] private int _maxSlideIterations = 2;
-    [SerializeField] private SFXManager _sfxManager = new();
+
+    [Header("SFX")]
+    [SerializeField] private SFXManager _sfxManager; // берем из сцены есЫли не назначен
+    [SerializeField] private float stepDistance = 1.6f; // через сколько метров проигрывать "шаг"
+    [SerializeField] private float minMoveSpeedForSteps = 0.05f; // чтобы не срабатывало от микродвижений
+
+    [Header("Ground check")]
+    [SerializeField] private float groundCheckDistance = 0.2f;
 
     private PlayerInputController _playerInputController;
     private CapsuleCollider _capsule;
+
+    private Vector3 _lastStepPos;
+    private bool _wasMoving;
 
     private void Awake()
     {
@@ -18,6 +29,14 @@ public class PlayerController : MonoBehaviour
         _capsule = GetComponent<CapsuleCollider>();
         if (!_capsule)
             Debug.LogWarning("PlayerController: нужен CapsuleCollider для слайда по стенам.");
+
+        if (_sfxManager == null)
+            _sfxManager = FindFirstObjectByType<SFXManager>(FindObjectsInactive.Include);
+    }
+
+    private void Start()
+    {
+        _lastStepPos = transform.position;
     }
 
     private void Update()
@@ -26,13 +45,69 @@ public class PlayerController : MonoBehaviour
         Vector3 moveLocal = new Vector3(input.x, 0f, input.y);
 
         Vector3 wishMove = transform.TransformDirection(moveLocal);
-        if (wishMove.sqrMagnitude > 1e-4f)
-            wishMove = wishMove.normalized * _speed * Time.deltaTime;
-        else
+
+        // если нет ввода — считаем, что остановился
+        if (wishMove.sqrMagnitude <= 1e-4f)
+        {
+            _wasMoving = false;
+            _lastStepPos = transform.position; // чтобы при старте не "накапливался" шаг
             return;
+        }
+
+        wishMove = wishMove.normalized * _speed * Time.deltaTime;
 
         Vector3 finalDelta = ComputeSlideDelta(transform.position, wishMove);
         transform.position += finalDelta;
+
+        HandleFootsteps(finalDelta);
+    }
+
+    private void HandleFootsteps(Vector3 finalDelta)
+    {
+        if (_sfxManager == null) return;
+
+        // скорость движения в метрах/сек
+        float speedNow = finalDelta.magnitude / Mathf.Max(Time.deltaTime, 0.0001f);
+        if (speedNow < minMoveSpeedForSteps)
+        {
+            _wasMoving = false;
+            _lastStepPos = transform.position;
+            return;
+        }
+
+        // Только если на земле
+        if (!IsGrounded())
+        {
+            _wasMoving = false;
+            _lastStepPos = transform.position;
+            return;
+        }
+
+        if (!_wasMoving)
+        {
+            _wasMoving = true;
+            _lastStepPos = transform.position;
+        }
+
+        float dist = Vector3.Distance(transform.position, _lastStepPos);
+        if (dist >= stepDistance)
+        {
+            _sfxManager.PlaySFX(SFXType.Footstep);
+            _lastStepPos = transform.position;
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        // простая проверка "под капсулой"
+        if (_capsule == null) return true;
+
+        Vector3 origin = transform.position + transform.TransformVector(_capsule.center);
+        float radius = _capsule.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.z);
+
+        // от центра капсулы вниз
+        return Physics.SphereCast(origin, radius * 0.9f, Vector3.down, out _,
+            groundCheckDistance, _collisionMask, QueryTriggerInteraction.Ignore);
     }
 
     private Vector3 ComputeSlideDelta(Vector3 startPos, Vector3 desiredDelta)
@@ -51,9 +126,8 @@ public class PlayerController : MonoBehaviour
                 pos += remainingDir * travel;
                 remaining -= travel;
 
-
                 Vector3 slideDir = Vector3.ProjectOnPlane(remainingDir, hit.normal);
-                if (slideDir.sqrMagnitude < 1e-6f) break; 
+                if (slideDir.sqrMagnitude < 1e-6f) break;
                 remainingDir = slideDir.normalized;
             }
             else

@@ -9,115 +9,101 @@ public class Vendor : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currencyText;
 
     [Header("References")]
-    [SerializeField] private PlayerInventory playerInventory;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private VendorUI vendorUI;
     [SerializeField] private PlayerInventory vendorInventory;
 
     public Inventory VendorInventory => vendorInventory.inventory;
 
+    [Header("Prices")]
+    public int coef = 1;
 
-    public int coef;
-
-    private bool menuActivated = false;
-
-    public enum VendorMode
-    {
-        Vendor,
-        Chest
-    }
-
+    public enum VendorMode { Vendor, Chest }
     public VendorMode mode;
 
+    private bool menuActivated;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
+        CloseShopUIOnly();
         UpdateCurrencyText();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OpenVendorUI()
     {
-        if (other.CompareTag("Player"))
-        {
-            vendorUI.RefreshUI();
+        menuActivated = true;
+
+        if (inventoryUI != null)
             inventoryUI.vendor = this;
+
+        if (vendorUI != null)
+        {
+            vendorUI.vendor = this;
             vendorUI.playerInventory = this.vendorInventory;
             vendorUI.inventory = this.vendorInventory.inventory;
-            vendorUI.vendor = this;
             vendorUI.RefreshUI();
-            OpenShop();
-
-            if (mode == VendorMode.Chest)
-            {
-                var chest = GetComponent<ChestRuntime>();
-                inventoryUI.currentChest = chest;
-            }
         }
+
+        if (mode == VendorMode.Chest && inventoryUI != null)
+        {
+            var chest = GetComponent<ChestRuntime>();
+            inventoryUI.currentChest = chest;
+        }
+
+        if (shopMenu != null) shopMenu.SetActive(true);
+        if (inventoryMenu != null) inventoryMenu.SetActive(true);
+
+        UpdateCurrencyText();
     }
 
-    private void OnTriggerExit(Collider other)
+    public void CloseVendorUI()
     {
-        if (other.CompareTag("Player"))
-        {
+        menuActivated = false;
+
+        CloseShopUIOnly();
+
+        if (inventoryUI != null)
             inventoryUI.vendor = null;
+
+        if (vendorUI != null)
+        {
             vendorUI.playerInventory = null;
             vendorUI.inventory = null;
             vendorUI.vendor = null;
-            CloseShop();
-
-            if (mode == VendorMode.Chest)
-            {
-                if (inventoryUI.currentChest == GetComponent<ChestRuntime>())
-                    inventoryUI.currentChest = null;
-            }
-
-            
         }
-    }
 
-    private void OpenShop()
-    {
-        menuActivated = true;
-        Cursor.visible = true;
-        shopMenu.SetActive(true);
-        inventoryMenu.SetActive(true);
-    }
-
-    private void CloseShop()
-    {
-        menuActivated = false;
-        Cursor.visible = false;
-        shopMenu.SetActive(false);
-        inventoryMenu.SetActive(false);
+        if (mode == VendorMode.Chest && inventoryUI != null)
+        {
+            var chest = GetComponent<ChestRuntime>();
+            if (inventoryUI.currentChest == chest)
+                inventoryUI.currentChest = null;
+        }
     }
 
     public void ClosingShop()
     {
-        menuActivated = false;
-        Cursor.visible = false;
-        shopMenu.SetActive(false);
-        inventoryMenu.SetActive(false);
+        // если у тебя пауза/время/курсор управляются PlayerInteractor'ом — закрывай через него
+        if (PlayerInteractor.Instance != null && PlayerInteractor.Instance.IsInteracting)
+            PlayerInteractor.Instance.EndInteraction();
+        else
+            CloseVendorUI();
+    }
 
-        inventoryUI.vendor = null;
-        vendorUI.playerInventory = null;
-        vendorUI.inventory = null;
-        vendorUI.vendor = null;
+    public void CloseByButton()
+    {
+        ClosingShop();
+    }
 
-        if (mode == VendorMode.Chest)
-            {
-                if (inventoryUI.currentChest == GetComponent<ChestRuntime>())
-                    inventoryUI.currentChest = null;
-            }
-
-        CloseShop();
+    private void CloseShopUIOnly()
+    {
+        if (shopMenu != null) shopMenu.SetActive(false);
+        if (inventoryMenu != null) inventoryMenu.SetActive(false);
     }
 
     public bool BuyItem(Item item, int index)
     {
         if (item == null) return false;
-        Debug.Log(Player.instance);
-        Debug.Log(item);
+
         if (Player.instance.leaves >= coef * item.price)
         {
             bool added = Player.instance.playerInventory.Add(new InventoryInstance(item, 1));
@@ -126,35 +112,26 @@ public class Vendor : MonoBehaviour
                 Player.instance.leaves -= (coef * item.price);
                 vendorInventory.RemoveBySlotIndex(index);
 
-
-                // 🔑 ТОЛЬКО если сейчас открыт сундук
-                if (inventoryUI.currentChest != null &&
+                if (inventoryUI != null &&
+                    inventoryUI.currentChest != null &&
                     inventoryUI.currentChest.inventory.IsEmpty())
                 {
-                    GameManager.Instance.OnChestLooted(
-                        inventoryUI.currentChest.chestIndex
-                    );
-
-                    inventoryUI.currentChest = null; // защита
+                    GameManager.Instance.OnChestLooted(inventoryUI.currentChest.chestIndex);
+                    inventoryUI.currentChest = null;
                 }
 
-
-
                 UpdateCurrencyText();
-                Debug.Log($"{item.itemName}");
-
+                Debug.Log($"Куплено: {item.itemName}");
                 return true;
             }
-            else
-            {
-                Debug.Log("  !");
-                //return false;
-            }
+
+            Debug.Log("Инвентарь игрока полный!");
+            return false;
         }
-        Debug.Log(" Leaves!");
+
+        Debug.Log("Недостаточно Leaves!");
         return false;
     }
-
 
     public void SellItem(int index)
     {
@@ -164,16 +141,14 @@ public class Vendor : MonoBehaviour
         Player.instance.leaves += (coef * item.price / 100);
         Player.instance.playerInventory.RemoveBySlotIndex(index);
         vendorInventory.Add(new InventoryInstance(item, 1));
-        UpdateCurrencyText();
 
-        Debug.Log($"�������: {item.itemName}");
+        UpdateCurrencyText();
+        Debug.Log($"Продано: {item.itemName}");
     }
 
     private void UpdateCurrencyText()
     {
         if (currencyText != null)
-        {
-            currencyText.text = $"Leaves: {Player.instance.leaves}";
-        }
+            currencyText.text = $"{Player.instance.leaves}";
     }
 }

@@ -3,13 +3,23 @@ using UnityEngine.UI;
 
 public class AudioSettingsUI : MonoBehaviour
 {
-    [Header("UI")]
     [SerializeField] private Scrollbar musicScrollbar;
     [SerializeField] private Scrollbar sfxScrollbar;
 
-    [Header("Managers")]
-    [SerializeField] private DualPlaylistMusicPlayer musicManager;
-    [SerializeField] private SFXManager sfxManager;
+    private DualPlaylistMusicPlayer musicManager;
+    private SFXManager sfxManager;
+
+    private void Awake()
+    {
+        musicManager = FindFirstObjectByType<DualPlaylistMusicPlayer>(FindObjectsInactive.Include);
+        sfxManager = FindFirstObjectByType<SFXManager>(FindObjectsInactive.Include);
+
+        if (musicManager == null)
+            Debug.LogWarning($"{nameof(AudioSettingsUI)}: Не найден DualPlaylistMusicPlayer в сцене.");
+
+        if (sfxManager == null)
+            Debug.LogWarning($"{nameof(AudioSettingsUI)}: Не найден SFXManager в сцене.");
+    }
 
     private void OnEnable()
     {
@@ -19,7 +29,6 @@ public class AudioSettingsUI : MonoBehaviour
         if (sfxManager != null && sfxScrollbar != null)
             sfxScrollbar.value = sfxManager.Volume;
 
-        // подписываемся на изменения
         if (musicScrollbar != null && musicManager != null)
             musicScrollbar.onValueChanged.AddListener(musicManager.SetVolume);
 
@@ -36,3 +45,4 @@ public class AudioSettingsUI : MonoBehaviour
             sfxScrollbar.onValueChanged.RemoveListener(sfxManager.SetVolume);
     }
 }
+

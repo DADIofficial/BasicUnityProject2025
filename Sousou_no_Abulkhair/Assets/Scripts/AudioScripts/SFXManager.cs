@@ -5,7 +5,9 @@ using UnityEngine;
 public enum SFXType
 {
     Footstep,
-    Attack
+    Attack,
+    Explosion,
+    Ench_attack
 }
 
 [Serializable]

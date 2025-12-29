@@ -12,12 +12,24 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
     [Header("Movement")]
     public MonoBehaviour movementScript;
 
+    [Header("SFX")]
+    [SerializeField] private SFXManager sfxManager; // можно оставить пустым — возьмёт из сцены
+
     private bool isAttacking = false;
+
+    private void Awake()
+    {
+        if (anim == null)
+            anim = GetComponent<Animator>();
+
+        if (sfxManager == null)
+            sfxManager = FindFirstObjectByType<SFXManager>(FindObjectsInactive.Include);
+    }
 
     void Start()
     {
-        anim = GetComponent<Animator>();
-        anim.SetBool("IsAttacking", false);
+        if (anim != null)
+            anim.SetBool("IsAttacking", false);
     }
 
     void Update()
@@ -34,29 +46,36 @@ public class Idle_Walk_TransitAnimation : MonoBehaviour
 
         var player = Player.instance;
         if (player == null)
+        {
+            isAttacking = false;
             yield break;
+        }
 
-        // 🔒 блокируем движение
         if (movementScript != null)
             movementScript.enabled = false;
 
-        // ⏳ задержка перед ударом
         yield return new WaitForSeconds(attackDelay);
 
-        // ⚔️ НАЧАЛО АТАКИ
+
+        if (sfxManager != null)
+            sfxManager.PlaySFX(SFXType.Attack);
+        else
+            Debug.LogWarning($"{nameof(Idle_Walk_TransitAnimation)}: SFXManager не найден в сцене.");
+
         player.StartAttack();
         player.EnableWeaponHitbox();
-        anim.SetBool("IsAttacking", true);
 
-        // 🩸 окно удара
+        if (anim != null)
+            anim.SetBool("IsAttacking", true);
+
         yield return new WaitForSeconds(attackDuration);
 
-        // ❌ КОНЕЦ АТАКИ
-        anim.SetBool("IsAttacking", false);
+        if (anim != null)
+            anim.SetBool("IsAttacking", false);
+
         player.DisableWeaponHitbox();
         player.EndAttack();
 
-        // 🔓 возвращаем движение
         if (movementScript != null)
             movementScript.enabled = true;
 

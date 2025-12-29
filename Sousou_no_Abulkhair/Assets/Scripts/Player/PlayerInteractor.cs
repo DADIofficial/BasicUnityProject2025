@@ -21,6 +21,10 @@ public class PlayerInteractor : MonoBehaviour
     private float prevFixedDeltaTime;
     private bool wasAudioPaused;
 
+    private bool inputBlocked;
+
+    private int externalLocks;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -33,16 +37,15 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Update()
     {
+        if (inputBlocked) return;
         if (!Input.GetKeyDown(interactKey)) return;
 
-        // Если уже взаимодействуем — закрываем по F
         if (currentInteracting != null)
         {
             EndInteraction();
             return;
         }
 
-        // Если рядом есть интерактивный объект — открываем по F
         if (currentCandidate != null)
         {
             BeginInteraction(currentCandidate);
@@ -58,7 +61,6 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (currentCandidate == obj) currentCandidate = null;
 
-        // Если игрок вышел из триггера во время взаимодействия — закрыть всё (на всякий)
         if (currentInteracting == obj)
             EndInteraction();
     }
@@ -67,7 +69,6 @@ public class PlayerInteractor : MonoBehaviour
     {
         currentInteracting = obj;
 
-        // Пауза мира
         prevTimeScale = Time.timeScale;
         prevFixedDeltaTime = Time.fixedDeltaTime;
 
@@ -80,18 +81,11 @@ public class PlayerInteractor : MonoBehaviour
             AudioListener.pause = true;
         }
 
-        // Отключаем управление/камера и т.п.
-        foreach (var mb in disableWhileInteracting)
-            if (mb != null) mb.enabled = false;
+        DisableControlledStuff();
 
-        foreach (var go in hideUiWhileInteracting)
-            if (go != null) go.SetActive(false);
-
-        // Курсор
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Открываем объект
         obj.Open();
     }
 
@@ -102,25 +96,62 @@ public class PlayerInteractor : MonoBehaviour
         currentInteracting.Close();
         currentInteracting = null;
 
-        // Возврат мира
         Time.timeScale = prevTimeScale;
         Time.fixedDeltaTime = prevFixedDeltaTime;
 
         if (pauseAudio)
             AudioListener.pause = wasAudioPaused;
 
+        if (externalLocks <= 0)
+            EnableControlledStuff();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (currentCandidate != null)
+            currentCandidate.RefreshPrompt();
+    }
+
+    public void SetInputBlocked(bool blocked)
+    {
+        inputBlocked = blocked;
+    }
+
+    public void PushExternalLock()
+    {
+        externalLocks++;
+        if (externalLocks == 1)
+        {
+            DisableControlledStuff();
+        }
+    }
+
+    public void PopExternalLock()
+    {
+        externalLocks = Mathf.Max(0, externalLocks - 1);
+
+        if (externalLocks == 0 && currentInteracting == null)
+        {
+            EnableControlledStuff();
+        }
+    }
+
+    private void DisableControlledStuff()
+    {
+        foreach (var mb in disableWhileInteracting)
+            if (mb != null) mb.enabled = false;
+
+        foreach (var go in hideUiWhileInteracting)
+            if (go != null) go.SetActive(false);
+    }
+
+    private void EnableControlledStuff()
+    {
         foreach (var mb in disableWhileInteracting)
             if (mb != null) mb.enabled = true;
 
         foreach (var go in hideUiWhileInteracting)
             if (go != null) go.SetActive(true);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        // Если всё ещё стоим рядом с объектом — он сам может снова показать подсказку
-        if (currentCandidate != null)
-            currentCandidate.RefreshPrompt();
     }
 
     public bool IsInteracting => currentInteracting != null;
